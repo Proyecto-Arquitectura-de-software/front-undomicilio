@@ -16,7 +16,7 @@ class App extends Component {
       <div>
         <Hello name={this.state.name} />
         <p>
-          Primer parrafo en ingles
+          Primer parrafo en espanol
         </p>
       </div>
     );
