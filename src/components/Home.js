@@ -16,7 +16,7 @@ class Home extends Component {
           <div>            
               <h1>Pagina principal</h1>
               <p>
-                  Esta sera la pagina principal de la aplicacion
+                Esta sera la pagina principal de la aplicacion
               </p>
           </div>
       );

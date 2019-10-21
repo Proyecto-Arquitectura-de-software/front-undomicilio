@@ -19,6 +19,8 @@ class App extends Component {
 
           {/*  Asi es masomenos como se hace el enrutamiento de las vistas:
 
+            ## Me esta botando un error ficty.. 
+
           <Switch>
           
             <Route exact path = "/" component = {Home} /> 
@@ -37,17 +39,7 @@ class App extends Component {
           </Switch>
           */}
 
-        <Switch>
-          
-          <Route exact path = "/" component = {Home} />          
-          <Route exact path = "/pedido" component = {MiPedido} />
-
-        </Switch>
-
-            <Hello name={this.state.name} />
-            <p>
-                Primer parrafo en espanol
-            </p>
+          <MiPedido/>
         </div>
     );
   }
