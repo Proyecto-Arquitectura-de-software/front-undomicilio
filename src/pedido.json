@@ -2,11 +2,11 @@
     "pedido": [
       {
         "id_usuario": "1",
-        "direccion": "Calle 4b #55 - 99",
-        "Estado": "En curso",
-        "Observaciones": "La hamburguesa sin cebolla",
-        "Subtotal": "$24000",
-        "Envio": "$3400"
+        "destino": "Calle 4b #55 - 99",
+        "estado": "En curso",
+        "observaciones": "La hamburguesa sin cebolla",
+        "subtotal": "24000",
+        "envio": "3400"
       }
     ]
 }
