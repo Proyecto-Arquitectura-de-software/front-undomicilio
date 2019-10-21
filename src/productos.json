@@ -1,0 +1,19 @@
+{
+    "productos": [
+      {
+        "id_usuario": "1",
+        "nombre": "Hamburguesa",
+        "precio": "$15.000"        
+      },
+      {
+        "id_usuario": "1",
+        "nombre": "Gaseosa",
+        "precio": "$3.000"        
+      },
+      {
+        "id_usuario": "1",
+        "nombre": "Ensalada",
+        "precio": "$7.000"        
+      }
+    ]
+}

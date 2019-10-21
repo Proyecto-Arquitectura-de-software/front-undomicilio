@@ -1,77 +1,77 @@
 import React, { Component } from 'react';
+import { productos } from '../productos.json';
 
 class MiPedido extends Component {
     constructor() {
       super();
       this.state = {
-        id_usuario: '1',
-        usuario: 'John_95',
-        cliente: 'John Mac'        
+        productos               
       };
     }
   
     render() {
+
+      const productos = this.state.productos.map((item, i) => {
+        return (
+          <div className="col-md-4" key={i}>
+            <div className="card mt-4">
+              <div className="card-title text-center">
+                <h3>{item.nombre}</h3>
+                <h4>
+                  <span className="badge badge-pill badge-warning ml-2">
+                    {item.precio}
+                  </span>
+                </h4>
+              </div>
+              <div className="card-footer">
+                <button
+                  className="btn btn-danger invisible"
+                  onClick={console.log('Para eliminar')}>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        )
+      });
   
       return (
 
-        <div>
-        
-          <h1>Estado de mi pedido</h1>
-
-          <p>Destino: </p>
-          <p>Articulos: </p>
-
-          <div className="card">
-            <form onSubmit={this.handleSubmit} className="card-body">
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="title"
-                  className="form-control"
-                  value={this.state.title}
-                  onChange={this.handleInputChange}
-                  placeholder="Title"
-                  />
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="responsible"
-                  className="form-control"
-                  value={this.state.responsible}
-                  onChange={this.handleInputChange}
-                  placeholder="Responsible"
-                  />
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="description"
-                  className="form-control"
-                  value={this.state.description}
-                  onChange={this.handleInputChange}
-                  placeholder="Description"
-                  />
-              </div>
-              <div className="form-group">
-                <select
-                    name="priority"
-                    className="form-control"
-                    value={this.state.priority}
-                    onChange={this.handleInputChange}
-                  >
-                  <option>low</option>
-                  <option>medium</option>
-                  <option>high</option>
-                </select>
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Save
-              </button>
-            </form>
-          </div>
-        </div>
+        <div>          
           
+          <div>
+            <div className="ml-4 mt-3">
+              <h1 className="text-center">Estado de mi pedido</h1>
+
+              <p className="">Destino: </p>              
+              <p className="">Estado: </p>
+            </div>            
+          </div>
+
+          <div className="MiPedido">
+            
+            <nav className="navbar navbar-dark bg-dark">
+              <a className="navbar-brand" href="/">
+                Productos
+                <span className="badge badge-pill badge-light ml-2">
+                  {this.state.productos.length}
+                </span>
+              </a>
+            </nav>
+
+            <div className="container">
+              <div className="row mt-4">          
+                <div className="col-md-8">
+                  <div className="row">
+                    {productos}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div> 
       );
     }
   
