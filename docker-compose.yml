@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  front:
+    container_name: front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '80:3000'
+    environment:
+      - NODE_ENV=production
