@@ -7,12 +7,12 @@ class MiPedido extends Component {
       super();
       this.state = {
         productos,
-        pedido    
+        pedido
       };
     }
-  
-    render() {      
-      
+
+    render() {
+
       const pedido = this.state.pedido[0];
 
       const productos = this.state.productos.map((item, i) => {
@@ -31,26 +31,26 @@ class MiPedido extends Component {
                 <button
                   className="btn btn-danger invisible"
                   onClick={console.log('Para eliminar')}>
-                  Eliminar
+                  Eliminar elemento
                 </button>
               </div>
             </div>
           </div>
         )
       });
-  
+
       return (
 
-        <div>                    
+        <div>
           <div>
             <div className="ml-4 mt-3">
               <h1 className="text-center">Estado de mi pedido</h1>
 
-              <p className="">Destino: <strong>{pedido.destino}</strong> </p>              
+              <p className="">Destino: <strong>{pedido.destino}</strong> </p>
               <p className="">Estado: <strong>{pedido.estado}</strong> </p>
-            </div>            
-          </div>          
-            
+            </div>
+          </div>
+
             <nav className="navbar navbar-dark bg-dark">
               <a className="navbar-brand" href="/">
                 Productos
@@ -60,28 +60,28 @@ class MiPedido extends Component {
               </a>
             </nav>
 
-            <div className="container mb-4">                     
+            <div className="container mb-4">
               <div className="col-md-8">
                   <div className="row">
                     {productos}
                   </div>
-                </div>              
+                </div>
             </div>
 
             <div>
-              <div className="ml-4">              
-                <p className="">Observaciones: <strong>{pedido.observaciones}</strong> </p>              
+              <div className="ml-4">
+                <p className="">Observaciones: <strong>{pedido.observaciones}</strong> </p>
                 <p className="">Subtotal: <strong>$ {pedido.subtotal}</strong> </p>
                 <p className="">Envio: <strong>$ {pedido.envio}</strong> </p>
 
                 <h4 className="">Total: <strong>$ {parseInt(pedido.envio) + parseInt(pedido.subtotal)}</strong> </h4>
-              </div>            
+              </div>
             </div>
 
-        </div> 
+        </div>
       );
     }
-  
+
 }
 
 export default MiPedido;
