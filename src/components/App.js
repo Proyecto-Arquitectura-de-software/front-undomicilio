@@ -3,6 +3,8 @@ import {Route,Switch} from 'react-router-dom';
 import Hello from '../Hello';
 import Home from './Home';
 import MiPedido from './MiPedido';
+import EstablishmentsListFilters from './EstablishmentsListFilters';
+import EstablishmentsList from './EstablishmentsList';
 
 class App extends Component {
   constructor() {
@@ -38,8 +40,7 @@ class App extends Component {
             <Route exact path = "/prueba" component = {prueba} />
           </Switch>
           */}
-
-          <MiPedido/>
+          <EstablishmentsList/>
         </div>
     );
   }
