@@ -10,6 +10,23 @@ class MiPedido extends Component {
         pedido    
       };
     }
+
+     // Se ejecuta cuando se carga el componente
+     componentDidMount() {
+      this.obtenerDatos();
+    }
+
+    async obtenerDatos(){
+
+      //const get = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+      const get = await fetch('http://localhost:3100/pedidos');
+      
+      const data = await get.json();
+
+      console.log(data);
+      
+      
+    } 
   
     render() {      
       
