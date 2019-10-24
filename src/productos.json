@@ -3,12 +3,22 @@
       {
         "id_usuario": "1",
         "nombre": "Hamburguesa",
-        "precio": "15000"        
+        "precio": "12000"        
       },
       {
         "id_usuario": "1",
         "nombre": "Gaseosa",
         "precio": "3000"        
+      },
+      {
+        "id_usuario": "2",
+        "nombre": "Papas a la francesa",
+        "precio": "5000"        
+      },
+      {
+        "id_usuario": "2",
+        "nombre": "Brownie con helado",
+        "precio": "8500"        
       },
       {
         "id_usuario": "1",
