@@ -1,0 +1,52 @@
+.filtersDiv{
+    padding: 5;
+    text-align: center;
+}
+
+.filtersTitle{
+    font-weight: bold;
+    margin-right: 2em;
+}
+
+.establishmentDiv{
+    background-color: beige;
+    padding-top: 5;
+    padding-bottom: 5;
+    padding-right: 5;
+    padding-left: 5;
+    margin : 1em;
+    Text-Align: center;
+}
+
+.link{
+    font-size: large;
+}
+
+.infoText{
+    font-size: small;
+}
+
+.subtitleText{
+    font-size: small;
+    color: gray;
+}
+
+.scoreRating{
+    vertical-align: top;
+}
+
+.category{
+    margin-left: 1em;
+    background-color: lightblue;
+    padding-right: 0.5em;
+    padding-left: 0.3em;
+    border-radius: 0.5em;
+}
+
+.establishmentList{
+    list-style:none;
+}
+
+.artificialMargin{
+    margin-right: 1em;
+}
