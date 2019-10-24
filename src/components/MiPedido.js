@@ -5,10 +5,10 @@ class MiPedido extends Component {
     constructor() {
       super();
       this.state = {
-        productos
+        productos,
+        envio : 1000,
+        message : "Cargando"
       };
-      this.state.message = "Cargando";
-      this.state.envio = 1000;
     }
 
      // Se ejecuta cuando se carga el componente
@@ -16,10 +16,9 @@ class MiPedido extends Component {
       this.obtenerDatos();    
     }
 
-    async obtenerDatos(){
-      
-      const get = await fetch('http://localhost:3100/pedidos/1');      
-      const data = await get.json();
+    async obtenerDatos(){      
+      let get = await fetch('http://localhost:3100/pedidos/1');      
+      let data = await get.json();
       this.setState({"pedido" : data});
       console.log("Los datos " + data);
           
@@ -27,8 +26,8 @@ class MiPedido extends Component {
 
     calcularSubtotal() {
       
-      var resultado = 0;
-      const prod = this.state.productos;
+      let resultado = 0;
+      let prod = this.state.productos;
 
       for (var i = 0; i < prod.length; i++) {
         resultado += parseInt(prod[i].precio);
@@ -49,7 +48,7 @@ class MiPedido extends Component {
           return (            
               <div className="col-md-4" key={i}>
                 <div className="card mt-4">
-                  <div className="card-title text-center">
+                  <div className="card text-center">
                     <h3>{item.nombre}</h3>
                     <h4>
                       <span className="badge badge-pill badge-warning ml-2">
@@ -91,7 +90,7 @@ class MiPedido extends Component {
               </nav>
 
               <div className="container mb-4">                     
-                <div className="col-md-8">
+                <div className="col-md-12">
                     <div className="row">
                       {productos}
                     </div>
@@ -102,9 +101,9 @@ class MiPedido extends Component {
                 <div className="ml-4">              
                   <p className="">Observaciones: <strong>{pedido.observaciones}</strong> </p>              
                   <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
-                  <p className="">Envio: <strong>$ {pedido.envio}</strong> </p>
+                  <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                  
 
-                  <h4 className="">Total: <strong>$ {parseInt(pedido.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
+                  <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
                 </div>            
               </div>
 
@@ -113,7 +112,9 @@ class MiPedido extends Component {
       }
       else {
         return(
-          <div>{this.state.message}</div>
+          <div>
+            {this.state.message}
+          </div>
         );
 
       }
