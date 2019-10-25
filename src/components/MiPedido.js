@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { productos } from '../productos.json';
+import { Chat } from './chat/chat';
 
 class MiPedido extends Component {
     constructor() {
@@ -106,7 +107,7 @@ class MiPedido extends Component {
                   <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
                 </div>            
               </div>
-
+              <Chat/>
           </div>         
         );
       }
