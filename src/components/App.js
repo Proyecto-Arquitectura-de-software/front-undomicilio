@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home';
 import MiPedido from './MiPedido';
 import Productos from './Productos';
-//import EstablishmentsList from './EstablishmentsList';
+import EstablishmentsList from './EstablishmentsList';
 
 
 class App extends Component {
@@ -30,6 +30,15 @@ class App extends Component {
               }>
             </Route>
 
+            {/* Ruta a la pagina de establecimientos */}    
+            <Route exact path = "/establecimientos" render = { () => {
+                return (
+                  <EstablishmentsList/>                              
+                )  
+              }
+              }>
+            </Route>
+
             {/* Ruta a la pagina de pedidos */}    
             <Route exact path = "/mipedido" render = { () => {
                 return (
@@ -39,6 +48,7 @@ class App extends Component {
               }>
             </Route>
 
+            {/* Ruta a la pagina de productos */} 
             <Route exact path="/productos" render = {() => {
               return (
                 <Productos/>
