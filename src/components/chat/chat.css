@@ -12,8 +12,10 @@ body {margin:0;}
 
 .chat .conversation {
     background-color: seashell;
-    overflow: scroll;
+    overflow-y: scroll;
+    
     font-size: small;
+    text-align: left;
     border-radius: 0px;
     border: 1px solid #555;
     height: 200px;
@@ -43,9 +45,9 @@ body {margin:0;}
 }
 
 #remitente{
-    text-align: center;
     width: 120px;
-    background-color: lightcoral;
+    left: 100px;
+    background-color: coral;
     position: relative;
     margin: 10px;
     padding: 5px;
@@ -54,14 +56,13 @@ body {margin:0;}
     border-radius: 10px;
 }
 
-#remitente:before{
-    content: "";
-    position: absolute;
-    right: 100%;
-    top: 25%;
-    width: 0;
-    height: 0;
-    border-top: 13px solid transparent;
-    border-right: 26px solid lightcoral;
-    border-bottom: 13px solid transparent;
+#destinatario{
+    width: 120px;
+    background-color: lightcoral;
+    position: relative;
+    margin: 10px;
+    padding: 5px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
