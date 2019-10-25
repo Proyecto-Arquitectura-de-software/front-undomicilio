@@ -15,6 +15,7 @@ body {margin:0;}
     overflow: scroll;
     font-size: small;
     border-radius: 0px;
+    border: 1px solid #555;
     height: 200px;
 }
 
