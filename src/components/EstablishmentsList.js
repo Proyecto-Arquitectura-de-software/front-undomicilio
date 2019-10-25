@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import { Rating } from '@material-ui/lab';
 import {Select, MenuItem, Button} from '@material-ui/core';
-import './establishmentsList.css';
+import '../styles/establishmentsList.css';
 
 class EstablishmentsList extends Component{
     
@@ -48,6 +49,14 @@ class EstablishmentsList extends Component{
                         </Select>
                         <span className="artificialMargin"/>
                         <Button onClick={this.getList.bind(this)}>Buscar</Button>
+
+                        {/* > > Incrustacion temporal de boton para ver mi pedido < < */}
+                        <span className="spacing"></span>
+                        <span>
+                          <Button variant="outlined" color="secondary">
+                            <Link to ='/Mipedido'>Mi pedido</Link>                    
+                          </Button>
+                        </span>
                     </div>
                     <ul className="establishmentList">
                         {this.state.list.map(e => (

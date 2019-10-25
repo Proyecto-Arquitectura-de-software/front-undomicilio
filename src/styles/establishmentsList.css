@@ -1,6 +1,7 @@
 .filtersDiv{
     padding: 5;
     text-align: center;
+    margin-top: 35px;    
 }
 
 .filtersTitle{
@@ -49,4 +50,8 @@
 
 .artificialMargin{
     margin-right: 1em;
+}
+
+.spacing {
+    margin-left: 200px;
 }

@@ -17,7 +17,7 @@ class MiPedido extends Component {
     }
 
     async obtenerDatos(){      
-      let get = await fetch('http://localhost:3100/pedidos/1');      
+      let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
       let data = await get.json();
       this.setState({"pedido" : data});
       console.log("Los datos " + data);
