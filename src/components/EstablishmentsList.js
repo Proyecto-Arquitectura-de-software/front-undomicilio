@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Rating } from '@material-ui/lab';
 import {Select, MenuItem, Button} from '@material-ui/core';
-import './establishmentsList.css';
+//import './establishmentsList.css';
 
 class EstablishmentsList extends Component{
     
