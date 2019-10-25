@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import EstablishmentsList from './EstablishmentsList';
 
 class Home extends Component {
     constructor() {
@@ -17,8 +18,10 @@ class Home extends Component {
           <div>            
               <h1>Pagina principal</h1>
               <p>
-                Esta sera la pagina principal de la aplicacion
+                Bienvenido a UN domicilio. Estos son los establecimientos cerca a tu dirección                
               </p>
+              <br></br>
+              <EstablishmentsList/>
               <Link to ='/mipedido'>Ir a mi pedido </Link>            
           </div>
       );
