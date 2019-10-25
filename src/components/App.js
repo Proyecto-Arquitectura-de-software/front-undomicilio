@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home';
 import MiPedido from './MiPedido';
-import EstablishmentsList from './EstablishmentsList';
+import Productos from './Productos';
+//import EstablishmentsList from './EstablishmentsList';
 
 class App extends Component {
   constructor() {
@@ -35,6 +36,15 @@ class App extends Component {
                 )  
               }
               }>
+            </Route>
+
+            <Route exact path="/productos" render = {() => {
+              return (
+                <Productos/>
+              )
+
+            }
+            }>
             </Route>
 
           </Router>         
