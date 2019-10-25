@@ -38,7 +38,11 @@ export class Chat extends Component {
             ? (
               <div>
                 <div className="conversation">
-                  
+                  {
+                    this.state.conversacion.map(res => (
+                      <div key={res.id} id="remitente">{res.mensaje}</div>
+                    ))
+                  }
                 </div>
                 <input className="input" type="text" placeholder="Mensaje"></input>
               </div>
