@@ -16,20 +16,15 @@ class Home extends Component {
               </p>
 
               <div className="center">
-                <span className="spacing">
-                  <Button variant="outlined" color="primary">
-                    {/*<Link to ='/mipedido'>Soy un cliente </Link>*/}
-                    <Link to ='/establecimientos'>Soy un cliente </Link>
-                  </Button>
+                <span className="spacing">                  
+                  {/*En caso de necesitar usar Link: <Link to ='/mipedido'>Soy un cliente </Link>*/}  
+                  <Button href="/establecimientos" variant="outlined" color="primary">Soy un cliente</Button>
                 </span>
+
                 <span className="spacing">
-                  <Button variant="outlined" color="secondary">
-                    <Link to ='/productos'>Soy un establecimiento</Link>                    
-                  </Button>
+                  <Button href="/productos" variant="outlined" color="secondary">Soy un Establecimiento</Button>                  
                 </span>
-              </div>
-              
-              {/*<Link to ='/mipedido'>Ir a mi pedido </Link>*/}
+              </div>                            
           </div>
       );
     }

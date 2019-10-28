@@ -3,13 +3,13 @@ import {Link} from 'react-router-dom';
 import { Rating } from '@material-ui/lab';
 import {Select, MenuItem, Button} from '@material-ui/core';
 import '../styles/establishmentsList.css';
+import { Loading } from './loading/loading';
 
 class EstablishmentsList extends Component{
     
     constructor(){
         super();
-        this.state = {};
-        this.state.message = "Cargando";
+        this.state = {};        
         this.scoreFilter = 0;
         this.maximumDeliveryTime = 10000;
         this.setFilterValue = (value) => {
@@ -22,8 +22,7 @@ class EstablishmentsList extends Component{
 
     componentDidMount() {
         this.getList();
-    }
-
+    }    
     
 
     render(){
@@ -84,8 +83,8 @@ class EstablishmentsList extends Component{
                     </ul>
                 </div>
             );
-        }else{
-            return(<div className="establishmentDiv">{this.state.message}</div>);
+        }else{            
+            return (<Loading/>)
         }
     }
 
