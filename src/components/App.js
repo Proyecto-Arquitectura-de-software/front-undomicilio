@@ -11,8 +11,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: 'React',
-      usuario: 3  // Por ahora se maneja por defecto el identificador del usuario
+      name: 'React'  
     };
   }
 
@@ -55,20 +54,22 @@ class App extends Component {
               return (
                 <Productos/>
               )
-
             }
             }>
             </Route>
-
+            
             {/* Ruta a la pagina de consulta y seleccion de productos */} 
-            <Route exact path="/verproductos" render = {() => {
+            <Route path = "/verproductos/:id_establecimiento" component={AgregarProductos}></Route>
+
+            {/* Ruta a la pagina de consulta y seleccion de productos 
+            <Route path = "/verproductos/:id_establecimiento" render = {() => {
               return (
                 <AgregarProductos user = {this.state.usuario}/>
               )
 
             }
             }>
-            </Route>
+            </Route>*/} 
 
           </Router>         
     );

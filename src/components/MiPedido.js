@@ -21,7 +21,7 @@ class MiPedido extends Component {
       let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
       let data = await get.json();
       this.setState({"pedido" : data});
-      console.log("Los datos " + data);
+      //console.log("Los datos " + data);
           
     }
 
@@ -59,8 +59,7 @@ class MiPedido extends Component {
                   </div>
                   <div className="card-footer">
                     <button
-                      className="btn btn-danger invisible"
-                      onClick={console.log('Para eliminar')}>
+                      className="btn btn-danger invisible">
                       Eliminar
                     </button>
                   </div>

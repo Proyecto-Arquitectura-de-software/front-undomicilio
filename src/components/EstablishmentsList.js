@@ -10,7 +10,7 @@ class EstablishmentsList extends Component{
     constructor(props){
         super(props);
         this.state = {};        
-        this.scoreFilter = 0;
+        this.scoreFilter = 0;        
         //alert(this.props.user);
         this.maximumDeliveryTime = 10000;
         this.setFilterValue = (value) => {
@@ -22,12 +22,22 @@ class EstablishmentsList extends Component{
     }
 
     componentDidMount() {
+           
+
+        /* axios.get(`/api/users/${params.userId}`)
+          .then(({ data: user }) => {
+            console.log('user', user);
+      
+            this.setState({ user });
+          }); */
+          
         this.getList();
     }    
     
 
-    render(){
+    render(){        
         if(this.state.list){
+            console.log(this.state.list);
             return(
                 <div>
                     <div className="filtersDiv">
@@ -59,9 +69,11 @@ class EstablishmentsList extends Component{
                         </span>
                     </div>
                     <ul className="establishmentList">
-                        {this.state.list.map(e => (
+                        {this.state.list.map(e => (                        
                         <li key={e._id} className="establishmentDiv">
-                            <a href="/verproductos" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+
+                            {/* ! ! Esta hardcodeado el 5 (representa el id del establecimiento) temporalmente, pendiente hacerlo con el id real ! ! */ }
+                            <a href="/verproductos/102" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                             <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                             <div>
                                 <span className="subtitleText">Categorías: </span>

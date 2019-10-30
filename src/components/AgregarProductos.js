@@ -3,31 +3,59 @@ import axios from 'axios';
 import ProductsPostForm from './ProductosPostForm';
 import MiPedido from './MiPedido';
 
-const apiUrl = 'http://34.69.25.250:3000/products/';
+const productosURL = 'http://34.69.25.250:3000/products/';
+var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
 
 
 class AgregarProductos extends Component {
 
     constructor(props) {
     super(props);
-    alert(this.props.user);
+    //alert(this.props.user);
+    //alert(this.props.match.params.id_establecimiento);
     this.state = {
       error: null,
-      products: [],
+      usuario: 13 , // Por ahora se maneja por defecto el identificador del usuario
+      products: [],      
       response: {} 
       
     }
   }
 
   componentDidMount() {
-    axios.get (apiUrl)
+
+    const { match: { params } } = this.props;
+
+    // Recibiendo El establecimiento y el usuario
+
+    // Con estos dos parametros se obtienen dos cosas:
+
+        // Los productos que el establecimiento ofrece
+        // El pedido que el usuario tenga con el establecimiento dado
+  
+    pedidosURL += this.state.usuario;
+    pedidosURL += '/';
+    pedidosURL += params.id_establecimiento;
+    
+    // Se carga el pedido
+    axios.get(pedidosURL)
+      .then(res => {
+      const pedido = res.data;      
+      this.setState({ pedido });      
+      console.log(this.state.pedido[0].estado);
+    }); 
+
+    // Se cargan los productos
+    axios.get(productosURL)
     .then(res => {
       const products = res.data;
       this.setState({ products });
-    })    
+    }); 
+
   }
 
-  deleteProduct(publicationID) {  
+  /*
+   deleteProduct(publicationID) {  
     const { products } = this.state;     
    axios.delete(apiUrl + publicationID).then(result=>{  
      alert(result.data);  
@@ -36,8 +64,8 @@ class AgregarProductos extends Component {
         products:products.filter(item=>item.publicationID !== publicationID)  
       });  
     });  
-  }
-  
+  } 
+  */
 
 
 render() {  
@@ -68,7 +96,7 @@ render() {
         <div>
           <nav className="navbar navbar-dark bg-dark">
             <a className="text-white" href="/" >
-              idestablecimiento
+              Establecimiento
               <span className="badge badge-pill badge-light ml-2">
                 Numero de productos: {this.state.products.length}
               </span>
