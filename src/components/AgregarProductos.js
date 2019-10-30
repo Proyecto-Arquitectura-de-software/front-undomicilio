@@ -5,14 +5,14 @@ import ProductsPostForm from './ProductosPostForm';
 const apiUrl = 'http://34.69.25.250:3000/products/';
 
 
-class Productos extends Component {
+class AgregarProductos extends Component {
 
     constructor(props) {
     super(props);
     this.state = {
       error: null,
       products: [],
-      response: {}
+      response: {} 
       
     }
   }
@@ -22,10 +22,9 @@ class Productos extends Component {
     .then(res => {
       const products = res.data;
       this.setState({ products });
-    })
-
-      
+    })    
   }
+
   deleteProduct(publicationID) {  
     const { products } = this.state;     
    axios.delete(apiUrl + publicationID).then(result=>{  
@@ -97,4 +96,4 @@ render() {
   
 }
 }
-export default Productos;
+export default AgregarProductos;

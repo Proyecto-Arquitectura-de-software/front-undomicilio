@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home';
 import MiPedido from './MiPedido';
 import Productos from './Productos';
+import AgregarProductos from './AgregarProductos';
 import EstablishmentsList from './EstablishmentsList';
 
 
@@ -48,10 +49,20 @@ class App extends Component {
               }>
             </Route>
 
-            {/* Ruta a la pagina de productos */} 
+            {/* Ruta a la pagina de edicion de productos */} 
             <Route exact path="/productos" render = {() => {
               return (
                 <Productos/>
+              )
+
+            }
+            }>
+            </Route>
+
+            {/* Ruta a la pagina de consulta y seleccion de productos */} 
+            <Route exact path="/verproductos" render = {() => {
+              return (
+                <AgregarProductos/>
               )
 
             }
