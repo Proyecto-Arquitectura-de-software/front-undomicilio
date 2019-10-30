@@ -46,13 +46,13 @@ render() {
       const producto = this.state.products.map((item,i)=>{
         return(
           <div className="col-md-4">
-            <div className="card mt-4">
+            <div className="card">
               <div className="card-header">
                 <h3>{item.name}</h3>
                 <div className="cardImg">
                   <img src={item.image} width="100px" height="100px"   />
                 </div>
-                <span className="badge badge-warning ml-2">{item.price}COP</span>
+                <span className="badge badge-warning ml-2">{item.price} COP</span>
               </div>
               <div className="card-body">
                 <p>{item.description}</p>
@@ -77,7 +77,7 @@ render() {
               </span>
             </a>  
           </nav>
-          <div className="container">
+          <div className="container-fluid">
             <div className="row mt-4">
 
               <div className="col-md-4 text-center">

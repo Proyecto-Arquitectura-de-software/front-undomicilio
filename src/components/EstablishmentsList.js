@@ -7,10 +7,11 @@ import { Loading } from './loading/loading';
 
 class EstablishmentsList extends Component{
     
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {};        
         this.scoreFilter = 0;
+        //alert(this.props.user);
         this.maximumDeliveryTime = 10000;
         this.setFilterValue = (value) => {
             return (event) => {
@@ -60,7 +61,7 @@ class EstablishmentsList extends Component{
                     <ul className="establishmentList">
                         {this.state.list.map(e => (
                         <li key={e._id} className="establishmentDiv">
-                            <a href="" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                            <a href="/verproductos" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                             <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                             <div>
                                 <span className="subtitleText">Categorías: </span>

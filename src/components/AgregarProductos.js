@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ProductsPostForm from './ProductosPostForm';
+import MiPedido from './MiPedido';
 
 const apiUrl = 'http://34.69.25.250:3000/products/';
 
@@ -9,6 +10,7 @@ class AgregarProductos extends Component {
 
     constructor(props) {
     super(props);
+    alert(this.props.user);
     this.state = {
       error: null,
       products: [],
@@ -35,30 +37,26 @@ class AgregarProductos extends Component {
       });  
     });  
   }
-
-
-
-
+  
 
 
 render() {  
       const producto = this.state.products.map((item,i)=>{
         return(
           <div className="col-md-4">
-            <div className="card mt-4">
+            <div className="card">
               <div className="card-header">
                 <h3>{item.name}</h3>
                 <div className="cardImg">
-                  <img src={item.image} width="100px" height="100px"   />
-                </div>
-                <span className="badge badge-warning ml-2">{item.price}COP</span>
+                  <img src={item.image} width="150px" height="150px"/>
+                </div>                
+                <p className="badge badge-warning">{item.price} COP</p>                
               </div>
-              <div className="card-body">
+              <div className="card-body">                
                 <p>{item.description}</p>
               </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={() => this.props.editProduct(item.publicationID)}>Edit</button>       
-                <button className="btn btn-danger" onClick={() => this.deleteProduct(item.publicationID)}>Delete</button>  
+              <div className="card-footer text-center">
+                <button className="btn btn-info" onClick={() => this.props.editProduct(item.publicationID)}>Agregar al pedido</button>       
               </div>
             </div>
           </div>  
@@ -76,20 +74,23 @@ render() {
               </span>
             </a>  
           </nav>
-          <div className="container">
+
+          <div className="container-fluid">
             <div className="row mt-4">
 
-              <div className="col-md-4 text-center">
-              <ProductsPostForm/>
-              </div>
-
+              {/* Aqui va ir el estado de mi pedido con el establecimiento dado */}
               <div className="col-md-8">
                 <div className="row">
                   {producto}
                 </div>
               </div>
+
+              {/* Aqui va ir el estado de mi pedido con el establecimiento dado */}
+              <div className="col-md-4">
+                <MiPedido/>
+              </div>              
             </div>
-        </div>         
+          </div>         
          
         </div>
       );

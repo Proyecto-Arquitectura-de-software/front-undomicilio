@@ -6,6 +6,10 @@ import '../styles/home.css';
 
 class Home extends Component {
 
+    constructor() {
+      super(); 
+    }
+
     render() {
   
       return (
