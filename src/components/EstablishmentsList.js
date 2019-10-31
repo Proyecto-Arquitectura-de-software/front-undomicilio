@@ -73,7 +73,7 @@ class EstablishmentsList extends Component{
                         <li key={e._id} className="establishmentDiv">
 
                             {/* ! ! Esta hardcodeado el 5 (representa el id del establecimiento) temporalmente, pendiente hacerlo con el id real ! ! */ }
-                            <a href="/verproductos/102" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                            <a href="/verproductos/101" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                             <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                             <div>
                                 <span className="subtitleText">Categorías: </span>

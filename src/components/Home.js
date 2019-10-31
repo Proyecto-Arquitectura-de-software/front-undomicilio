@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import EstablishmentsList from './EstablishmentsList';
+// import EstablishmentsList from './EstablishmentsList';
 import {Button} from '@material-ui/core';
 import '../styles/home.css';
 
 class Home extends Component {
-
-    constructor() {
-      super(); 
-    }
 
     render() {
   

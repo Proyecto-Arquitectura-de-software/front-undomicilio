@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ProductsPostForm from './ProductosPostForm';
 import MiPedido from './MiPedido';
 
 const productosURL = 'http://34.69.25.250:3000/products/';
@@ -15,7 +14,7 @@ class AgregarProductos extends Component {
     //alert(this.props.match.params.id_establecimiento);
     this.state = {
       error: null,
-      usuario: 13 , // Por ahora se maneja por defecto el identificador del usuario
+      usuario: 12 , // Por ahora se maneja por defecto el identificador del usuario
       products: [],      
       response: {} 
       
@@ -40,9 +39,22 @@ class AgregarProductos extends Component {
     // Se carga el pedido
     axios.get(pedidosURL)
       .then(res => {
-      const pedido = res.data;      
+      const pedido = res.data;     
+      
+      // this.state.pedido[0].estado works !!
+      console.log(pedido);
+      console.log(pedido.length);
+
+      if (pedido.length === 0) {
+          // No hay pedidos, se crea uno nuevo
+          alert('NO hay pedidos');
+      }
+      else if (1 === 1) {
+        alert('SI hay pedidos');
+      }
+
       this.setState({ pedido });      
-      console.log(this.state.pedido[0].estado);
+      //console.log(this.state.pedido[0].estado);
     }); 
 
     // Se cargan los productos
@@ -76,12 +88,12 @@ render() {
               <div className="card-header">
                 <h3>{item.name}</h3>
                 <div className="cardImg">
-                  <img src={item.image} width="150px" height="150px"/>
+                  <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
                 </div>                
                 <p className="badge badge-warning">{item.price} COP</p>                
               </div>
               <div className="card-body">                
-                <p>{item.description}</p>
+                <p>{item.description}</p> 
               </div>
               <div className="card-footer text-center">
                 <button className="btn btn-info" onClick={() => this.props.editProduct(item.publicationID)}>Agregar al pedido</button>       
