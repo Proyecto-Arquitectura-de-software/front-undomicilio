@@ -15,9 +15,10 @@ class AgregarProductos extends Component {
     this.state = {
       error: null,
       usuario: 12 , // Por ahora se maneja por defecto el identificador del usuario
-      products: [],      
-      response: {} 
-      
+      products: [],
+      pedido: {},
+      editable: null
+
     }
   }
 
@@ -40,47 +41,67 @@ class AgregarProductos extends Component {
     axios.get(pedidosURL)
       .then(res => {
       const pedido = res.data;     
-      
-      // this.state.pedido[0].estado works !!
-      console.log(pedido);
-      console.log(pedido.length);
-
-      if (pedido.length === 0) {
-          // No hay pedidos, se crea uno nuevo
-          alert('NO hay pedidos');
-      }
-      else if (1 === 1) {
-        alert('SI hay pedidos');
-      }
-
-      this.setState({ pedido });      
-      //console.log(this.state.pedido[0].estado);
+      this.handleOrders(pedido);
     }); 
 
     // Se cargan los productos
     axios.get(productosURL)
     .then(res => {
-      const products = res.data;
+      const products = res.data;      
       this.setState({ products });
     }); 
 
   }
 
-  /*
-   deleteProduct(publicationID) {  
-    const { products } = this.state;     
-   axios.delete(apiUrl + publicationID).then(result=>{  
-     alert(result.data);  
-      this.setState({  
-        response:result,  
-        products:products.filter(item=>item.publicationID !== publicationID)  
-      });  
-    });  
-  } 
-  */
+  handleOrders(pedido) {
 
+    // this.state.pedido[0].estado works !!
+    console.log(pedido);
+    console.log(pedido.length);
 
-render() {  
+    if (pedido.length !== 0) {
+        // Si hay pedidos
+        // alert(pedido[0].estado);
+
+        for (let i = 0; i < pedido.length; i++){
+          
+          if (pedido[i].estado === 'Creado'){
+            this.setState({"pedido" : pedido[i]});             
+            this.setState({"editable" : true});     
+            break;         
+          }
+          else if (pedido[i].estado === 'En curso'){
+            this.setState({"pedido" : pedido[i]});             
+            this.setState({"editable" : false});     
+            break;         
+          }
+        }
+
+    }
+    
+    else {
+        // No hay pedidos, se crea uno nuevo
+        
+    }
+
+             
+  }
+
+  agregarProducto(producto) {
+
+      if (this.state.editable) {
+        alert('Agregar: ' + producto);
+      }
+
+      else {
+        alert('NO editable');
+      }
+    
+  }
+  
+
+  render() {  
+      console.log('Finally ' + this.state.pedido.id);
       const producto = this.state.products.map((item,i)=>{
         return(
           <div className="col-md-4">
@@ -96,7 +117,7 @@ render() {
                 <p>{item.description}</p> 
               </div>
               <div className="card-footer text-center">
-                <button className="btn btn-info" onClick={() => this.props.editProduct(item.publicationID)}>Agregar al pedido</button>       
+                <button className="btn btn-info" onClick={() => this.agregarProducto(item.publicationID)}>Agregar a mi pedido</button>       
               </div>
             </div>
           </div>  
@@ -135,6 +156,6 @@ render() {
         </div>
       );
   
-}
+  }
 }
 export default AgregarProductos;
