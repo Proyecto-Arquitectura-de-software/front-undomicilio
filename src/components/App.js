@@ -50,7 +50,7 @@ class App extends Component {
             </Route>
 
             {/* Ruta a la pagina de edicion de productos */} 
-            <Route exact path="/productos" render = {() => {
+            <Route exact path = "/productos" render = {() => {
               return (
                 <Productos/>
               )
@@ -59,7 +59,7 @@ class App extends Component {
             </Route>
             
             {/* Ruta a la pagina de consulta y seleccion de productos */} 
-            <Route path = "/verproductos/:id_establecimiento" component={AgregarProductos}></Route>
+            <Route path = "/verproductos/:id_establecimiento" component = {AgregarProductos}></Route>
 
             {/* Ruta a la pagina de consulta y seleccion de productos 
             <Route path = "/verproductos/:id_establecimiento" render = {() => {

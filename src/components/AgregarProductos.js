@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import MiPedido from './MiPedido';
 
+// URL para consultar todos los productos existentes
 const productosURL = 'http://34.69.25.250:3000/products/';
+
+// URL para consultar los pedidos de un cliente y un establecimiento dados
 var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
 
 
@@ -14,11 +17,10 @@ class AgregarProductos extends Component {
     //alert(this.props.match.params.id_establecimiento);
     this.state = {
       error: null,
-      usuario: 12 , // Por ahora se maneja por defecto el identificador del usuario
+      usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
       products: [],
       pedido: {},
       editable: null
-
     }
   }
 
@@ -36,7 +38,7 @@ class AgregarProductos extends Component {
     pedidosURL += this.state.usuario;
     pedidosURL += '/';
     pedidosURL += params.id_establecimiento;
-    
+
     // Se carga el pedido
     axios.get(pedidosURL)
       .then(res => {
@@ -138,8 +140,7 @@ class AgregarProductos extends Component {
 
           <div className="container-fluid">
             <div className="row mt-4">
-
-              {/* Aqui va ir el estado de mi pedido con el establecimiento dado */}
+              
               <div className="col-md-8">
                 <div className="row">
                   {producto}

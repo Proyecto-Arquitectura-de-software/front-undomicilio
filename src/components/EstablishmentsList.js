@@ -36,8 +36,7 @@ class EstablishmentsList extends Component{
     
 
     render(){        
-        if(this.state.list){
-            console.log(this.state.list);
+        if(this.state.list){            
             return(
                 <div>
                     <div className="filtersDiv">
@@ -70,22 +69,21 @@ class EstablishmentsList extends Component{
                     </div>
                     <ul className="establishmentList">
                         {this.state.list.map(e => (                        
-                        <li key={e._id} className="establishmentDiv">
-
-                            {/* ! ! Esta hardcodeado el 5 (representa el id del establecimiento) temporalmente, pendiente hacerlo con el id real ! ! */ }
-                            <a href="/verproductos/101" className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                        <li key = {e._id} className="establishmentDiv">
+                                      
+                            <a name = {e._id} onClick = {this.goToProducts} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                             <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                             <div>
                                 <span className="subtitleText">Categorías: </span>
-                                <span className="infoText">{e.categories.map(e => e+", ")}</span>
+                                <span className="infoText">{e.categories.map(e => e + ", ")}</span>
                             </div>
                             <div>
                                 <span className="subtitleText">Dirección: </span>
-                                <span className="infoText">{e.address}</span>
+                                <span className="infoText">{e.address} </span>
                             </div>
                             <div>
                                 <span className="subtitleText">Tiempo de entrega: </span>
-                                <span className="infoText">{e.deliveryTime} min</span>
+                                <span className="infoText">{e.deliveryTime} min </span>
                             </div>
                             <div>
                                 <span className="subtitleText">Costo de entrega: </span>
@@ -101,9 +99,17 @@ class EstablishmentsList extends Component{
         }
     }
 
+    // Funcion para redirigir a los productos del establecimiento seleccionado
+    goToProducts (e){	                
+        window.location.href = "/verproductos/" + e.target.name;        
+    }
+
+    // Funcio para obtener todos los establecimientos cercanos a las coordenadas dadas
+    // ! ! ! COORDENADAS HARCODEADAS ! ! ! => falta que sean parametrizables por una vista de ubicacion
     getList(){
         let xhr = new XMLHttpRequest();
         xhr.open('GET', `http://34.69.25.250:3001/establishments/?coordinateX=4.630854&coordinateY=-74.050782&minimumScore=${this.scoreFilter}&maximumDeliveryTime=${this.maximumDeliveryTime}`);
+
         xhr.onload = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {

@@ -21,6 +21,8 @@
 
 .link{
     font-size: large;
+    cursor: pointer;    
+    color: blue !important;
 }
 
 .infoText{
