@@ -22,14 +22,7 @@ class EstablishmentsList extends Component{
     }
 
     componentDidMount() {
-           
-
-        /* axios.get(`/api/users/${params.userId}`)
-          .then(({ data: user }) => {
-            console.log('user', user);
-      
-            this.setState({ user });
-          }); */
+        
           
         this.getList();
     }    
