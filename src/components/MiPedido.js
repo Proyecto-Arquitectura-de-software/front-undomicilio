@@ -3,6 +3,8 @@ import axios from 'axios';
 import { productos } from '../productos.json';
 import { Chat } from './chat/chat';
 
+import '../styles/pedido.css';
+
 // URL para consultar los pedidos de un cliente y un establecimiento dados
 var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
 
@@ -131,15 +133,14 @@ class MiPedido extends Component {
     render() {      
       
       
-      if (this.state.mipedido){
-        //alert(this.props.editable);
+      if (this.state.mipedido){      
         console.log('Este es mi pedido creado: ');
         console.log(this.state.mipedido);
         const pedido = this.state.mipedido;              
         
-        const productos = this.state.productos.map((item, i) => {
+       /*  const productos = this.state.productos.map((item, i) => {
           return (            
-              <div className="col-md-4" key={i}>
+              <div className="col-md-4" key = {i}>
                 <div className="card mt-4">
                   <div className="card text-center">
                     <h3>{item.nombre}</h3>
@@ -158,47 +159,72 @@ class MiPedido extends Component {
                 </div>
               </div>            
           )
-        });
+        });  */            
     
-        return (
+        return (  
+          
+          <div>                                        
+            <h1 className="">Mi pedido</h1>
+            <form>              
+              <div className="card">
+                <div className="card-body"> 
+                                    
+                  <span className="">Destino 
+                  <input
+                    type = "text"
+                    name = "destino"
+                    className = "form-control input"						
+                    onChange = {this.changeHandler}                                           
+                  /> 
+                  </span>                                                   
 
-          <div>                    
-            <div>
-              <div className="ml-4 mt-3">
-                <h1 className="">Mi pedido</h1><br></br>
+                  <div className = "mt-3">
+                    <p className="navbar-brand">
+                      Productos
+                    <span className="badge badge-pill badge-info ml-2">
+                      {this.state.productos.length}
+                    </span>
+                    </p> 
+                  </div>             
+                  
+                  <div className="container-fluid mb-4">                     
+                    <div className="col-md-12">
+                        <div className="row">
+                                
+                        </div>
+                      </div>              
+                  </div>
 
-                <p className="">Destino: <strong>{pedido.destino}</strong> </p>              
-                <p className="">Estado: <strong>{pedido.estado}</strong> </p>
-              </div>            
-            </div>          
+                  <div className = "mt-3">
+                    <span className="">Observaciones 
+                    <textarea
+                      type = "text"
+                      name = "observaciones"
+                      className = "form-control input"						
+                      onChange = {this.changeHandler}                        
+                      rows = "3"                   
+                    /> 
+                    </span>  
+                  </div>
+                </div>                                    
+              </div>
               
-              <nav className="navbar navbar-dark bg-dark">
-                <a className="navbar-brand" href="/">
-                  Productos
-                  <span className="badge badge-pill badge-light ml-2">
-                    {this.state.productos.length}
-                  </span>
-                </a>
-              </nav>
+              <div className = "card mt-2 financiero">
+                <div className = "card-body">                  
+                  <div className="ml-1">              
+                    
+                    <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
+                    <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                  
 
-              <div className="container mb-4">                     
-                <div className="col-md-12">
-                    <div className="row">
-                      {productos}
-                    </div>
-                  </div>              
-              </div>
+                    <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
+                  </div>                              
+                  {/*<Chat></Chat>*/}
+                  <button type = "submit" className = "btn btn-danger mt-2 enviar">Enviar pedido</button>
+                </div>
+              </div>  
 
-              <div>
-                <div className="ml-4">              
-                  <p className="">Observaciones: <strong>{pedido.observaciones}</strong> </p>              
-                  <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
-                  <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                  
-
-                  <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
-                </div>            
-              </div>
-              {/*<Chat/>*/}
+            </form>
+           
           </div>         
         );
       }

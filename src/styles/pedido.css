@@ -1,0 +1,18 @@
+
+
+.input {    
+    font-weight: bold;
+}
+
+.financiero {
+    background-color: rgba(240, 122, 93, 0.093);
+}
+
+.agregar {
+    width: 100%;
+}
+
+.enviar {
+    width: 100%;
+    font-weight: bold;
+}

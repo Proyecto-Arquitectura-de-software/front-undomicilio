@@ -65,7 +65,7 @@ class AgregarProductos extends Component {
                 <p>{item.description}</p> 
               </div>
               <div className="card-footer text-center">
-                <button className="btn btn-info" onClick={() => this.agregarProducto(item.publicationID)}>Agregar a mi pedido</button>       
+                <button className="btn btn-info agregar" onClick={() => this.agregarProducto(item.publicationID)}>Agregar a mi pedido</button>       
               </div>
             </div>
           </div>  
