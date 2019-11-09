@@ -10,16 +10,28 @@ const productosURL = 'http://34.69.25.250:3000/products/';
 class AgregarProductos extends Component {
 
     constructor(props) {
-    super(props);
+      super(props);
     
-    this.state = {
-      error: null,
-      usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
-      establecimiento: null,
-      products: [],      
-      editable: null
+      this.state = {
+        error: null,
+        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
+        establecimiento: null,
+        productos: [],
+        productosAgregados: [] /* {"prod":
+          [
+            {
+            'nombre' : 'Arroz con pollo',
+            'precio' : '7000'
+            },
+            {
+            'nombre' : 'Patatas',
+            'precio' : '9000'
+            }
+          ]
+        } */
+      };
+      this.agregarProducto = this.agregarProducto.bind(this);
     }
-  }
 
   componentDidMount() {
 
@@ -29,28 +41,34 @@ class AgregarProductos extends Component {
     // Se cargan los productos
     axios.get(productosURL)
     .then(res => {
-      const products = res.data;      
-      this.setState({ products });
+      const productos = res.data;      
+      this.setState({ productos });
     }); 
     
   }
 
 
-  agregarProducto(producto) {
+  agregarProducto(prod) {
 
-      if (this.state.editable) {
-        alert('Agregar: ' + producto);
-      }
+      let producto = {
+        "id" : prod.publicationID,
+        "nombre" : prod.name,
+        "precio" : prod.price
+      } 
+      
+      this.setState({
+        productosAgregados: [...this.state.productosAgregados, producto]
+      })
 
-      else {
-        alert('NO editable');
-      }
-    
+      console.log(this.state);
+      //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
+      //this.setState({ "establecimiento" : 'Cambiado estab !!'});    
+      //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
   }
   
 
   render() {  
-      const producto = this.state.products.map((item,i) => {
+      const producto = this.state.productos.map((item,i) => {
         return(
           <div className="col-md-4">
             <div className="card">
@@ -65,7 +83,7 @@ class AgregarProductos extends Component {
                 <p>{item.description}</p> 
               </div>
               <div className="card-footer text-center">
-                <button className="btn btn-info agregar" onClick={() => this.agregarProducto(item.publicationID)}>Agregar a mi pedido</button>       
+                <button className="btn btn-info agregar" onClick={() => this.agregarProducto(item)}>Agregar a mi pedido</button>       
               </div>
             </div>
           </div>  
@@ -79,7 +97,7 @@ class AgregarProductos extends Component {
               <a className="text-white" href="/" >
                 Establecimiento
                 <span className="badge badge-pill badge-light ml-2">
-                  Numero de productos: {this.state.products.length}
+                  Numero de productos: {this.state.productos.length}
                 </span>
               </a>  
             </nav>
@@ -94,9 +112,9 @@ class AgregarProductos extends Component {
                 </div>
   
                 {/* Aqui va ir el estado de mi pedido con el establecimiento dado */}
-                <div className="col-md-4">
+                <div className = "col-md-4">
                   {/*alert ('Hey ' + this.estab)*/}
-                  <MiPedido establecimiento = {this.state.establecimiento} editable = {this.state.editable}/>
+                  <MiPedido establecimiento = {this.state.establecimiento} productosAgregados = {this.state.productosAgregados}/>
                 </div>              
               </div>
             </div>         

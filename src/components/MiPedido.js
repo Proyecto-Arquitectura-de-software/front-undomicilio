@@ -3,7 +3,7 @@ import axios from 'axios';
 import { productos } from '../productos.json';
 import { Chat } from './chat/chat';
 
-import '../styles/pedido.css';
+  import '../styles/pedido.css';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
 var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
@@ -24,7 +24,7 @@ class MiPedido extends Component {
       };
     }
      
-     componentDidMount() {   
+    componentDidMount() {   
     
       pedidosURL += this.state.usuario;
       pedidosURL += '/';
@@ -92,7 +92,7 @@ class MiPedido extends Component {
           axios.post(nuevoPedidoURL, body)
               .then(response => {
                 // console.log(response);
-                console.log('data ' + response.data.insertId);
+                //console.log('data ' + response.data.insertId);
                 body = {
                   "id": response.data.insertId,
                   "id_cliente": this.state.usuario,
@@ -125,41 +125,55 @@ class MiPedido extends Component {
       for (var i = 0; i < prod.length; i++) {
         resultado += parseInt(prod[i].precio);
       }
-
       return resultado;
-
     }
   
     render() {      
       
       
       if (this.state.mipedido){      
-        console.log('Este es mi pedido creado: ');
-        console.log(this.state.mipedido);
-        const pedido = this.state.mipedido;              
+        //console.log('Este es mi pedido creado: ');
+        //console.log(this.state.mipedido);
+        //const pedido = this.state.mipedido;    
+
+        // El subcomponente que se va a mostrar en la seccion de productos
+        let productos;
+
+
         
-       /*  const productos = this.state.productos.map((item, i) => {
-          return (            
-              <div className="col-md-4" key = {i}>
-                <div className="card mt-4">
-                  <div className="card text-center">
-                    <h3>{item.nombre}</h3>
-                    <h4>
-                      <span className="badge badge-pill badge-warning ml-2">
-                        $ {item.precio}
-                      </span>
-                    </h4>
+        if (this.props.productosAgregados.length > 0){
+          productos = this.props.productosAgregados.map((item, i) => {
+            return (            
+                <div className="col-md-4" key = {i}>
+                  <div className="card mt-4">
+                    <div className="card text-center">
+                      <h3>{item.nombre}</h3>
+                      <h4>
+                        <span className="badge badge-pill badge-warning ml-2">
+                          $ {item.precio}
+                        </span>
+                      </h4>
+                    </div>
+                    <div className="card-footer">
+                      <button
+                        className="btn btn-danger invisible">
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
-                  <div className="card-footer">
-                    <button
-                      className="btn btn-danger invisible">
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              </div>            
-          )
-        });  */            
+                </div>            
+            )
+          }); 
+        }   
+      
+        // No se han agregado productos al pedido
+        else {
+          productos = 
+          <div>
+            <h1>No has agregado productos</h1>
+          </div>
+
+        }          
     
         return (  
           
@@ -182,7 +196,7 @@ class MiPedido extends Component {
                     <p className="navbar-brand">
                       Productos
                     <span className="badge badge-pill badge-info ml-2">
-                      {this.state.productos.length}
+                      {/*this.props.productosAgregados.length*/}
                     </span>
                     </p> 
                   </div>             
@@ -190,7 +204,7 @@ class MiPedido extends Component {
                   <div className="container-fluid mb-4">                     
                     <div className="col-md-12">
                         <div className="row">
-                                
+                          {productos}
                         </div>
                       </div>              
                   </div>
@@ -215,7 +229,7 @@ class MiPedido extends Component {
                     
                     <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
                     <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                  
-
+                    {this.props.establecimiento}
                     <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}
