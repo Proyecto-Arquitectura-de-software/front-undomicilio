@@ -11,34 +11,59 @@ var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
 // URL para crear un nuevo pedido
 var nuevoPedidoURL = 'http://localhost:3100/pedidos';
 
+// URL para obtener datos del establecimiento
+var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+
 class MiPedido extends Component {
     constructor() {
       super();
       this.state = {
-        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
-        productos,         
+        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario            
         mipedido: {},
-        envio: 1000,
+        metodos: [],
+        envio: 0,
         estado: null,
         message: "Cargando"
       };
     }
      
     componentDidMount() {   
-    
+      
+      // Se cargan los pedidos del usuario y el establecimiento dados
       pedidosURL += this.state.usuario;
       pedidosURL += '/';
       pedidosURL += this.props.establecimiento;
-    
-      // Se cargan los pedidos del usuario y el establecimiento dados
+          
       axios.get(pedidosURL)
         .then(res => {
         const pedido = res.data;     
         this.setearPedido(pedido);
       }); 
 
+      // Se cargan los datos del establecimiento
+      establecimientoURL += this.props.establecimiento;
+
+      axios.get(establecimientoURL)
+        .then(res => {
+        const establecimiento = res.data;     
+        this.setState({"envio": establecimiento.deliveryCost});
+        this.setState({"metodos": establecimiento.paymentMethods});
+      })
+      .catch(error => {
+        alert('fallo obteniendo el establecimiento' + error);
+        console.log(error)
+      }); 
+
       //this.obtenerDatos();    
     }
+
+   /*  // Se cargan los productos y los datos del pedido
+    async obtenerDatos(){      
+      let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
+      let data = await get.json();
+      this.setState({"pedidos" : data});
+      //console.log("Los datos " + data);      
+    } */ 
 
     // Se determina si ya existe un pedido en proceso o creado. O por el contrario, se crea uno nuevo
     setearPedido(pedidos) {
@@ -104,23 +129,15 @@ class MiPedido extends Component {
                 this.setState({ "mipedido" : body});
               })
               .catch(error => {
-                alert('fallo ' + error);
+                alert('fallo creando pedido' + error);
                 console.log(error)
               });     
-    }
-
-    // Se cargan los productos y los datos del pedido
-    async obtenerDatos(){      
-      let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
-      let data = await get.json();
-      this.setState({"pedidos" : data});
-      //console.log("Los datos " + data);      
-    }
+    }   
 
     calcularSubtotal() {
       
       let resultado = 0;
-      let prod = this.state.productos;
+      let prod = this.props.productosAgregados;
 
       for (var i = 0; i < prod.length; i++) {
         resultado += parseInt(prod[i].precio);
@@ -128,7 +145,7 @@ class MiPedido extends Component {
       return resultado;
     }
   
-    render() {      
+    render() {     
       
       
       if (this.state.mipedido){      
@@ -139,38 +156,31 @@ class MiPedido extends Component {
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
 
-
-        
+        // Los productos que se van agregando al pedido, son en realidad props, pues son del state del componente AgregarProductos        
         if (this.props.productosAgregados.length > 0){
           productos = this.props.productosAgregados.map((item, i) => {
             return (            
-                <div className="col-md-4" key = {i}>
-                  <div className="card mt-4">
-                    <div className="card text-center">
-                      <h3>{item.nombre}</h3>
-                      <h4>
-                        <span className="badge badge-pill badge-warning ml-2">
-                          $ {item.precio}
-                        </span>
-                      </h4>
-                    </div>
-                    <div className="card-footer">
-                      <button
-                        className="btn btn-danger invisible">
-                        Eliminar
-                      </button>
-                    </div>
-                  </div>
-                </div>            
+              <div className = "col-md-12 mb-2" key = {i}>     
+                <span className = "nombre">{item.nombre}</span>
+                <span
+                  className = "remove right badge badge-pill badge-danger ml-2"
+                  onClick = {() => this.props.eliminarProducto(i)}>           
+                  x
+                </span>
+                <span className = "text right badge badge-pill badge-warning">
+                  $ {item.precio}
+                </span>        
+              </div>            
             )
           }); 
         }   
       
         // No se han agregado productos al pedido
+        ////onClick = {() => this.props.eliminarProducto.bind(this, item.publicationID)}>       
         else {
           productos = 
           <div>
-            <h1>No has agregado productos</h1>
+            <h3>No has agregado productos</h3 >
           </div>
 
         }          
@@ -178,16 +188,16 @@ class MiPedido extends Component {
         return (  
           
           <div>                                        
-            <h1 className="">Mi pedido</h1>
+            <h1 className="card card-header mb-2">Mi pedido</h1>
             <form>              
               <div className="card">
                 <div className="card-body"> 
                                     
-                  <span className="">Destino 
+                  <span>Destino 
                   <input
                     type = "text"
                     name = "destino"
-                    className = "form-control input"						
+                    className = "form-control input border border-danger"						
                     onChange = {this.changeHandler}                                           
                   /> 
                   </span>                                                   
@@ -196,7 +206,7 @@ class MiPedido extends Component {
                     <p className="navbar-brand">
                       Productos
                     <span className="badge badge-pill badge-info ml-2">
-                      {/*this.props.productosAgregados.length*/}
+                      {this.props.productosAgregados.length}
                     </span>
                     </p> 
                   </div>             
@@ -227,9 +237,9 @@ class MiPedido extends Component {
                 <div className = "card-body">                  
                   <div className="ml-1">              
                     
+                    <p className="">Metodos de pago: <strong>{this.state.metodos}</strong> </p>
                     <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
-                    <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                  
-                    {this.props.establecimiento}
+                    <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                      <br></br>             
                     <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}

@@ -60,15 +60,25 @@ class AgregarProductos extends Component {
         productosAgregados: [...this.state.productosAgregados, producto]
       })
 
-      console.log(this.state);
+      //console.log(this.state);
       //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
       //this.setState({ "establecimiento" : 'Cambiado estab !!'});    
       //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
   }
+
+  eliminarProducto = (index) => {
+    //console.log('index ' + index);
+        
+    this.state.productosAgregados.splice(index,1);
+    this.setState({ productosAgregados: this.state.productosAgregados});
+    
+    //console.log(this.state.productosAgregados);
+  }
   
 
   render() {  
-      const producto = this.state.productos.map((item,i) => {
+    //console.log(this.state.productosAgregados);
+      const productos = this.state.productos.map((item,i) => {
         return(
           <div className="col-md-4">
             <div className="card">
@@ -77,10 +87,10 @@ class AgregarProductos extends Component {
                 <div className="cardImg">
                   <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
                 </div>                
-                <p className="badge badge-warning">{item.price} COP</p>                
+                <p className="text badge badge-warning mt-2">$ {item.price}</p>
               </div>
-              <div className="card-body">                
-                <p>{item.description}</p> 
+              <div className="center mt-2 mb-2">    
+              <span>{item.description}</span> 
               </div>
               <div className="card-footer text-center">
                 <button className="btn btn-info agregar" onClick={() => this.agregarProducto(item)}>Agregar a mi pedido</button>       
@@ -107,14 +117,16 @@ class AgregarProductos extends Component {
                 
                 <div className="col-md-8">
                   <div className="row">
-                    {producto}
+                    {productos}
                   </div>  
                 </div>
   
                 {/* Aqui va ir el estado de mi pedido con el establecimiento dado */}
                 <div className = "col-md-4">
                   {/*alert ('Hey ' + this.estab)*/}
-                  <MiPedido establecimiento = {this.state.establecimiento} productosAgregados = {this.state.productosAgregados}/>
+                  <MiPedido establecimiento = {this.state.establecimiento}
+                   productosAgregados = {this.state.productosAgregados}
+                   eliminarProducto = {this.eliminarProducto}/>
                 </div>              
               </div>
             </div>         
