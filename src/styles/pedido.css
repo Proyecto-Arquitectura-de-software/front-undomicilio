@@ -42,3 +42,12 @@
     font-size: large;
     cursor: pointer;
 }
+
+.separator {
+    height: 1px;
+    background-color: black;
+}
+
+.empty-products {
+    color: tomato;
+}

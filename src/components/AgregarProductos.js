@@ -17,18 +17,7 @@ class AgregarProductos extends Component {
         usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
         establecimiento: null,
         productos: [],
-        productosAgregados: [] /* {"prod":
-          [
-            {
-            'nombre' : 'Arroz con pollo',
-            'precio' : '7000'
-            },
-            {
-            'nombre' : 'Patatas',
-            'precio' : '9000'
-            }
-          ]
-        } */
+        productosAgregados: []
       };
       this.agregarProducto = this.agregarProducto.bind(this);
     }
@@ -47,7 +36,6 @@ class AgregarProductos extends Component {
     
   }
 
-
   agregarProducto(prod) {
 
       let producto = {
@@ -59,20 +47,13 @@ class AgregarProductos extends Component {
       this.setState({
         productosAgregados: [...this.state.productosAgregados, producto]
       })
-
-      //console.log(this.state);
-      //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
-      //this.setState({ "establecimiento" : 'Cambiado estab !!'});    
-      //alert('Agregar: ' + producto + ' ' + this.state.establecimiento);  
   }
 
   eliminarProducto = (index) => {
-    //console.log('index ' + index);
         
     this.state.productosAgregados.splice(index,1);
-    this.setState({ productosAgregados: this.state.productosAgregados});
-    
-    //console.log(this.state.productosAgregados);
+    this.setState({ productosAgregados: this.state.productosAgregados});    
+
   }
   
 

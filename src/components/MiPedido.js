@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { productos } from '../productos.json';
+import {Select, MenuItem} from '@material-ui/core';
 import { Chat } from './chat/chat';
 
   import '../styles/pedido.css';
+import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
 var pedidosURL = 'http://localhost:3100/pedidos_cliente/';
 
 // URL para crear un nuevo pedido
-var nuevoPedidoURL = 'http://localhost:3100/pedidos';
+var nuevoPedidoURL = 'http://localhost:3100/pedidos/';
+
+    // URL para crear las asociaciones entre productos y pedidos
+    var pedidoProductoURL = 'http://localhost:3100/pedido_producto/';
 
 // URL para obtener datos del establecimiento
 var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
@@ -17,14 +21,24 @@ var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
 class MiPedido extends Component {
     constructor() {
       super();
+      this.scoreFilter = 0; // Corresponde al indice del select list de metodos de pago     
       this.state = {
         usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario            
         mipedido: {},
         metodos: [],
+        metodo_escogido: "",
         envio: 0,
         estado: null,
-        message: "Cargando"
+        message_destino: "",
+        message_prod: "" 
       };
+      
+      this.setFilterValue = (value) => {
+        return (event) => {
+            this[value] = event.target.value;
+            this.setState(this.state);
+        };
+    };
     }
      
     componentDidMount() {   
@@ -67,17 +81,12 @@ class MiPedido extends Component {
 
     // Se determina si ya existe un pedido en proceso o creado. O por el contrario, se crea uno nuevo
     setearPedido(pedidos) {
-
-      // this.state.pedido[0].estado works !!
   
-      if (pedidos.length !== 0) {
-          // Si hay pedidos
-          // alert(pedido[0].estado);
+      if (pedidos.length !== 0) {          
   
           for (let i = 0; i < pedidos.length; i++){
             
-            if (pedidos[i].estado === 'Creado'){
-              //this.setState({"pedido" : pedido[i]});             
+            if (pedidos[i].estado === 'Creado'){                     
               this.setState({"estado" : 'creado'});     
               this.setState({"mipedido" : pedidos[i]});   
               return;         
@@ -90,7 +99,7 @@ class MiPedido extends Component {
           }
           
           alert('Solo encontro finalizados y se crea un NUEVO pedido');
-          // Solo encontro pedidos finalizados, asi que se crea un nuevo pedid
+          // Solo encontro pedidos finalizados, asi que se crea un nuevo pedido
           this.nuevoPedido();
   
       }
@@ -111,7 +120,8 @@ class MiPedido extends Component {
             "id_establecimiento": this.props.establecimiento,
             "id_estado": 1, // (Creacion)
             "observaciones": "",
-            "destino": ""
+            "destino": "",
+            "metodo_pago": this.state.metodo_escogido
           }
 
           axios.post(nuevoPedidoURL, body)
@@ -124,7 +134,8 @@ class MiPedido extends Component {
                   "id_establecimiento": this.props.establecimiento,
                   "estado": 'Creado', 
                   "observaciones": "",
-                  "destino": ""
+                  "destino": "",
+                  "metodo_pago": ""
                 }
                 this.setState({ "mipedido" : body});
               })
@@ -144,17 +155,111 @@ class MiPedido extends Component {
       }
       return resultado;
     }
+
+    // La funcion que se ejecuta para solicitare el envio del pedido
+    enviarPedido = e => {    
+
+      // Primero se realizan las validaciones
+      if (this.validaciones()){        
+        // <<<Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
+        nuevoPedidoURL += this.state.mipedido.id;
+        //alert('Enviando')
+        let metodo;
+        if (document.getElementById("metodo").value <= 0){
+          metodo = "No especificado";
+        }
+        else {
+          metodo = this.state.metodos[document.getElementById("metodo").value - 1];
+        }
+
+
+        let body = {
+          "id": this.state.mipedido.id,
+          "id_cliente": this.state.usuario,
+          "id_establecimiento": this.props.establecimiento,
+          "id_estado": 2, // (En curso )
+          "observaciones": document.getElementById("observaciones").value,
+          "destino": document.getElementById("destino").value,
+          "metodo_pago": metodo
+        }
+
+
+        console.log('EL body');
+        console.log(body);
+
+        console.log('URL');
+        console.log(nuevoPedidoURL);
+
+        // Se actualiza el pedido con los datos ingresados por el usuario
+        axios
+          .put(nuevoPedidoURL, body)
+          .then(response => {
+            console.log('Se actualizo bien el pedido');
+            console.log(response);
+          })
+          .catch(error => {
+            console.log('Algo fallo actualizando el pedido');
+            console.log(error)
+            })
+
+
+        // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
+        this.props.productosAgregados.map((item, i) => {          
+          body = {
+            "id_pedido": this.state.mipedido.id,
+            "id_producto": item.id
+          }
+
+          axios
+          .post(pedidoProductoURL, body)
+          .then(response => {
+            console.log('Se asocio el producto con el pedido');
+            console.log(response);
+          })
+          .catch(error => {
+            console.log('ALgo fallo en la asociacion');
+            console.log(error)
+          })
+
+        });
+
+
+      }
+      else {
+        e.preventDefault();
+      }
+    }
+
+
+    validaciones() {
+
+      let message_destino = "";
+      let message_prod = "";
+      if (document.getElementById("destino").value.length === 0) {
+        message_destino = "!Tu pedido no tiene una direccion de destino¡";
+      }
+
+      if(this.props.productosAgregados.length <= 0){        
+        message_prod = "!Tu pedido no tiene productos¡";              
+      }
+      
+      this.setState({message_destino:  message_destino});
+      this.setState({message_prod:  message_prod});
+
+      return message_destino === "" && message_prod === "";
+
+    }
+
+    
   
-    render() {     
-      
-      
-      if (this.state.mipedido){      
-        //console.log('Este es mi pedido creado: ');
-        //console.log(this.state.mipedido);
-        //const pedido = this.state.mipedido;    
+    render() {               
+      if (this.state.mipedido){        
 
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
+
+        // El componente de seleccion de metodos de pago segun el establecimiento
+        let metodos;
 
         // Los productos que se van agregando al pedido, son en realidad props, pues son del state del componente AgregarProductos        
         if (this.props.productosAgregados.length > 0){
@@ -174,59 +279,66 @@ class MiPedido extends Component {
             )
           }); 
         }   
-      
-        // No se han agregado productos al pedido
-        ////onClick = {() => this.props.eliminarProducto.bind(this, item.publicationID)}>       
         else {
           productos = 
           <div>
-            <h3>No has agregado productos</h3 >
+            <h3 className = "empty-products">No has agregado productos</h3 >
           </div>
+        }  
 
-        }          
+        metodos = this.state.metodos.map((item, i) => {
+          return (                    
+            <MenuItem value = {i+1}>{item}</MenuItem>                                         
+          )
+        });
+      
+        // No se han agregado productos al pedido
+        ////onClick = {() => this.props.eliminarProducto.bind(this, item.publicationID)}>       
+                
     
         return (  
           
           <div>                                        
-            <h1 className="card card-header mb-2">Mi pedido</h1>
-            <form>              
-              <div className="card">
-                <div className="card-body"> 
+            <h3 className = "card card-header mb-2"><strong>Mi pedido</strong></h3>
+            <form onSubmit = {this.enviarPedido}>              
+              <div className = "card">
+                <div className = "card-body"> 
                                     
                   <span>Destino 
                   <input
+                    id = "destino"
                     type = "text"
                     name = "destino"
-                    className = "form-control input border border-danger"						
-                    onChange = {this.changeHandler}                                           
+                    className = "form-control input border border-danger"  
+                    placeholder = "e.g. Calle 4b #57 - 70"                
                   /> 
                   </span>                                                   
 
                   <div className = "mt-3">
-                    <p className="navbar-brand">
+                    <p className = "navbar-brand">
                       Productos
-                    <span className="badge badge-pill badge-info ml-2">
+                    <span className = "badge badge-pill badge-info ml-2">
                       {this.props.productosAgregados.length}
                     </span>
                     </p> 
                   </div>             
                   
-                  <div className="container-fluid mb-4">                     
-                    <div className="col-md-12">
-                        <div className="row">
+                  <div className = "container-fluid mb-4">                     
+                    <div className = "col-md-12">
+                        <div className = "row">
                           {productos}
                         </div>
                       </div>              
                   </div>
 
                   <div className = "mt-3">
-                    <span className="">Observaciones 
+                    <span className = "">Observaciones 
                     <textarea
+                      id = "observaciones"
                       type = "text"
                       name = "observaciones"
-                      className = "form-control input"						
-                      onChange = {this.changeHandler}                        
-                      rows = "3"                   
+                      className = "form-control input"						                                        
+                      rows = "2"                   
                     /> 
                     </span>  
                   </div>
@@ -235,15 +347,26 @@ class MiPedido extends Component {
               
               <div className = "card mt-2 financiero">
                 <div className = "card-body">                  
-                  <div className="ml-1">              
+                  <div className = "ml-1">              
                     
-                    <p className="">Metodos de pago: <strong>{this.state.metodos}</strong> </p>
-                    <p className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </p>
-                    <p className="">Envio: <strong>$ {this.state.envio}</strong> </p>                      <br></br>             
+                    <strong>{/*this.state.metodos*/}</strong>
+                    <span className="">Metodo de pago:  </span>
+                    <Select id = "metodo" value = {this.scoreFilter} onChange = {this.setFilterValue("scoreFilter")}>
+                      {metodos}
+                      <MenuItem value = {0}>Elige uno</MenuItem>                      
+                    </Select>
+                    <br></br><br></br>
+                    <span className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </span><br></br>
+                    <span className="">Envio: <strong>$ {this.state.envio}</strong> </span>            
+                    
+                    <div className = "separator mt-1 mb-1"></div>             
                     <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}
-                  <button type = "submit" className = "btn btn-danger mt-2 enviar">Enviar pedido</button>
+                  <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
+                  <span className = ""><strong>{this.state.message_destino}</strong></span>
+                  <br></br>
+                  <span className = ""><strong>{this.state.message_prod}</strong></span>
                 </div>
               </div>  
 
@@ -253,12 +376,7 @@ class MiPedido extends Component {
         );
       }
       else {
-        return(
-          <div>
-            {this.state.message}
-          </div>
-        );
-
+        return( <Loading/> );
       }
     }
   
