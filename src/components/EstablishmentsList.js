@@ -133,7 +133,7 @@ class EstablishmentsList extends Component{
                 return;         
               }
               else if (pedidos[i].estado === 'En curso'){
-                window.location.href = "/pedidoencurso/" + id_establecimiento;    
+                window.location.href = "/verproductos/" + id_establecimiento;    
                 //this.setState({"estado" : 'curso'});  
                 //this.setState({"mipedido" : pedidos[i]});                          
                 return;                     

@@ -64,7 +64,7 @@ class MiPedido extends Component {
         this.setState({"metodos": establecimiento.paymentMethods});
       })
       .catch(error => {
-        alert('fallo obteniendo el establecimiento' + error);
+        //alert('fallo obteniendo el establecimiento' + error);
         console.log(error)
       }); 
 
@@ -90,14 +90,14 @@ class MiPedido extends Component {
             }
           }
           
-          alert('Solo encontro finalizados y se crea un NUEVO pedido');
+          //alert('Solo encontro finalizados y se crea un NUEVO pedido');
           // Solo encontro pedidos finalizados, asi que se crea un nuevo pedido
           this.nuevoPedido();
   
       }
       
       else { 
-          alert('Se crea un NUEVO pedido');
+          //alert('Se crea un NUEVO pedido');
 
           // No hay pedidos, se crea uno nuevo
           this.nuevoPedido();
@@ -132,7 +132,7 @@ class MiPedido extends Component {
                 this.setState({ "mipedido" : body});
               })
               .catch(error => {
-                alert('fallo creando pedido' + error);
+                //alert('fallo creando pedido' + error);
                 console.log(error)
               });     
     }   
