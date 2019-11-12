@@ -26,7 +26,8 @@ class AgregarProductos extends Component {
 
     const { match: { params } } = this.props;      
     this.setState({ "establecimiento" : params.id_establecimiento});    
-
+    
+    
     // Se cargan los productos
     axios.get(productosURL)
     .then(res => {

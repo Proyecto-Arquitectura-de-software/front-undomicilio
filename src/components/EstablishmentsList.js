@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { Rating } from '@material-ui/lab';
+import axios from 'axios';
 import {Select, MenuItem, Button} from '@material-ui/core';
 import '../styles/establishmentsList.css';
 import { Loading } from './loading/loading';
 
+// URL para consultar los pedidos de un cliente y un establecimiento dados
+var pedidosURL = 'http://34.69.25.250:3100/pedidos_cliente/';
+
 class EstablishmentsList extends Component{
     
-    constructor(props){
-        super(props);
-        this.state = {};        
+    constructor(){
+        super();
+        this.state = {
+            usuario: '5dc22701c7900c00135e604c' // > > > Por ahora se maneja por defecto el identificador del usuario              
+        };        
         this.scoreFilter = 0;        
         //alert(this.props.user);
         this.maximumDeliveryTime = 10000;
@@ -19,11 +25,11 @@ class EstablishmentsList extends Component{
                 this.setState(this.state);
             };
         };
+
+        this.goToProducts = this.goToProducts.bind(this);
     }
 
-    componentDidMount() {
-        
-          
+    componentDidMount() {                  
         this.getList();
     }    
     
@@ -92,10 +98,60 @@ class EstablishmentsList extends Component{
         }
     }
 
-    // Funcion para redirigir a los productos del establecimiento seleccionado
-    goToProducts (e){	                
-        window.location.href = "/verproductos/" + e.target.name;        
+    // Funcion para redirigir a la vista para escoger productos del establecimiento seleccionado o bien, para ver el estado del pedido en curso
+    goToProducts (e){	           
+        
+        let establecimiento = e.target.name;
+
+        // Se cargan los pedidos del usuario y el establecimiento dados
+        pedidosURL += this.state.usuario;
+        pedidosURL += '/';
+        pedidosURL += establecimiento;
+        console.log('La URL');
+        console.log(pedidosURL);
+
+        axios.get(pedidosURL)
+            .then(res => {
+            const pedidos = res.data;   
+            //console.log(pedidos);
+            console.log(establecimiento);
+            this.setearPedido(pedidos, establecimiento);
+        }); 
+
     }
+
+    setearPedido(pedidos, id_establecimiento) { 
+  
+        if (pedidos.length !== 0) {          
+    
+            for (let i = 0; i < pedidos.length; i++){
+              
+              if (pedidos[i].estado === 'Creado'){   
+                window.location.href = "/verproductos/" + id_establecimiento;                     
+                //this.setState({"estado" : 'creado'});     
+                //this.setState({"mipedido" : pedidos[i]});   
+                return;         
+              }
+              else if (pedidos[i].estado === 'En curso'){
+                window.location.href = "/pedidoencurso/" + id_establecimiento;    
+                //this.setState({"estado" : 'curso'});  
+                //this.setState({"mipedido" : pedidos[i]});                          
+                return;                     
+              }
+            }
+                    
+            // Solo encontro pedidos finalizados, asi que se envia al componente MiPedido
+            window.location.href = "/verproductos/" + id_establecimiento;    
+    
+        }
+        
+        else {             
+            // No hay pedidos, se envia al componente MiPedido
+            window.location.href = "/verproductos/" + id_establecimiento;    
+        }               
+      }
+
+
 
     // Funcio para obtener todos los establecimientos cercanos a las coordenadas dadas
     // ! ! ! COORDENADAS HARCODEADAS ! ! ! => falta que sean parametrizables por una vista de ubicacion

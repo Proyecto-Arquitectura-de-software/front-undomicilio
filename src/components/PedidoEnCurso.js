@@ -18,7 +18,7 @@ var nuevoPedidoURL = 'http://34.69.25.250:3100/pedidos/';
 // URL para obtener datos del establecimiento
 var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
 
-class MiPedido extends Component {
+class PedidoEnCurso extends Component {
     constructor() {
       super();
       this.scoreFilter = 0; // Corresponde al indice del select list de metodos de pago     
@@ -70,6 +70,14 @@ class MiPedido extends Component {
 
       //this.obtenerDatos();    
     }
+
+   /*  // Se cargan los productos y los datos del pedido
+    async obtenerDatos(){      
+      let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
+      let data = await get.json();
+      this.setState({"pedidos" : data});
+      //console.log("Los datos " + data);      
+    } */ 
 
     // Se determina si ya existe un pedido en proceso o creado. O por el contrario, se crea uno nuevo
     setearPedido(pedidos) {
@@ -152,8 +160,7 @@ class MiPedido extends Component {
     enviarPedido = e => {    
 
       // Primero se realizan las validaciones
-      if (this.validaciones()){  
-        e.preventDefault();      
+      if (this.validaciones()){        
         // <<<Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
         nuevoPedidoURL += this.state.mipedido.id;
         //alert('Enviando')
@@ -375,4 +382,4 @@ class MiPedido extends Component {
   
 }
 
-export default MiPedido;
+export default PedidoEnCurso;
