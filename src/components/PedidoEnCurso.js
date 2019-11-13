@@ -42,30 +42,14 @@ class PedidoEnCurso extends Component {
      
     componentDidMount() {   
       
-     
-
-      // Se cargan los datos del establecimiento
-      /* establecimientoURL += this.props.establecimiento;
-
-      axios.get(establecimientoURL)
-        .then(res => {
-        const establecimiento = res.data;     
-        this.setState({"envio": establecimiento.deliveryCost});
-        this.setState({"metodos": establecimiento.paymentMethods});
-      })
-      .catch(error => {
-        alert('fallo obteniendo el establecimiento' + error);
-        console.log(error)
-      });  */
 
       const { match: { params } } = this.props;      
-      //this.setState({ "establecimiento" : params.id_establecimiento});      
 
-      obtenerPedidoURL += params.id_pedido;
-      console.log(obtenerPedidoURL);
+
+      obtenerPedidoURL += params.id_pedido;      
       this.obtenerPedido(obtenerPedidoURL);   
       
-      obtenerProductosURL += params.id_pedido;            
+      obtenerProductosURL += params.id_pedido;              
       this.obtenerProductos(obtenerProductosURL);
     };
 
@@ -73,6 +57,7 @@ class PedidoEnCurso extends Component {
     async obtenerPedido(URL){      
       let get = await fetch(URL);      
       let data = await get.json();
+      console.log(data);
       this.setState({"mipedido" : data});
       //console.log("Los datos " + data);      
     } 
@@ -82,47 +67,21 @@ class PedidoEnCurso extends Component {
     async obtenerProductos(URL){      
       let get = await fetch(URL);      
       let data = await get.json();
+      console.log(data);
       this.setState({"productos" : data});
       //console.log("Los datos " + data);      
     } 
-   
-   /*  calcularSubtotal() {
-      
-      let resultado = 0;
-      let prod = this.props.productosAgregados;
+ 
 
-      for (var i = 0; i < prod.length; i++) {
-        resultado += parseInt(prod[i].precio);
-      }
-      return resultado;
-    } */
-
-
-
-    validaciones() {
-
-      let message_destino = "";
-      let message_prod = "";
-      if (document.getElementById("destino").value.length === 0) {
-        message_destino = "!Tu pedido no tiene una direccion de destino¡";
-      }
-
-      if(this.props.productosAgregados.length <= 0){        
-        message_prod = "!Tu pedido no tiene productos¡";              
-      }
-      
-      this.setState({message_destino:  message_destino});
-      this.setState({message_prod:  message_prod});
-
-      return message_destino === "" && message_prod === "";
-
-    }
+    // Falta cargar la informacion completa de los productos
+    // Nombre, image, descripcion, precio...
 
     
   
-    render() {               
-      if (this.state.mipedido){        
-
+    render() {     
+            
+      if (this.state.mipedido.length > 0){        
+        //console.log(this.state.mipedido[0].destino);
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
 
@@ -131,21 +90,25 @@ class PedidoEnCurso extends Component {
 
         // Los productos que se van agregando al pedido, son en realidad props, pues son del state del componente AgregarProductos        
         if (this.state.productos.length > 0){
-          productos = this.state.productos.map((item, i) => {
-            return (            
-              <div className = "col-md-12 mb-2" key = {i}>     
-                <span className = "nombre">{item.nombre}</span>
-                <span
-                  className = "remove right badge badge-pill badge-danger ml-2"
-                  onClick = {() => this.props.eliminarProducto(i)}>           
-                  x
-                </span>
-                <span className = "text right badge badge-pill badge-warning">
-                  $ {item.precio}
-                </span>        
-              </div>            
+          productos = this.state.productos.map((item,i) => {
+            return(
+              <div className="col-md-4">
+                <div className="card">
+                  <div className="card-header">
+                    <h3>{item.id_producto}</h3>
+                    <div className="cardImg">
+                      <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
+                    </div>                
+                    <p className="text badge badge-warning mt-2">$ {item.price}</p>
+                  </div>
+                  <div className="center mt-2 mb-2">    
+                  <span>{item.description}</span> 
+                  </div>
+                 
+                </div>
+              </div>  
             )
-          }); 
+          })
         }   
         else {
           productos = 
@@ -167,20 +130,14 @@ class PedidoEnCurso extends Component {
         return (  
           
           <div>                                        
-            <h3 className = "card card-header mb-2"><strong>Mi pedido</strong></h3>
+            <h3 className = "card card-header mb-2"><strong>Pedido en curso</strong></h3>
             <form onSubmit = {this.enviarPedido}>              
               <div className = "card">
                 <div className = "card-body"> 
                                     
-                  <span>Destino 
-                  <input
-                    id = "destino"
-                    type = "text"
-                    name = "destino"
-                    className = "form-control input border border-danger"  
-                    placeholder = "e.g. Calle 4b #57 - 70"                
-                  /> 
-                  </span>                                                   
+                  <span className = "navbar-brand">Destino: 
+                    <strong> {this.state.mipedido[0].destino}</strong>
+                  </span>
 
                   <div className = "mt-3">
                     <p className = "navbar-brand">
@@ -200,14 +157,8 @@ class PedidoEnCurso extends Component {
                   </div>
 
                   <div className = "mt-3">
-                    <span className = "">Observaciones 
-                    <textarea
-                      id = "observaciones"
-                      type = "text"
-                      name = "observaciones"
-                      className = "form-control input"						                                        
-                      rows = "2"                   
-                    /> 
+                    <span className = "navbar-brand">Observaciones: 
+                      <strong className = "text-break text-wrap"> {this.state.mipedido[0].observaciones}</strong>
                     </span>  
                   </div>
                 </div>                                    
@@ -218,11 +169,9 @@ class PedidoEnCurso extends Component {
                   <div className = "ml-1">              
                     
                     <strong>{/*this.state.metodos*/}</strong>
-                    <span className="">Metodo de pago:  </span>
-                    <Select id = "metodo" value = {this.scoreFilter} onChange = {this.setFilterValue("scoreFilter")}>
-                      {metodos}
-                      <MenuItem value = {0}>Elige uno</MenuItem>                      
-                    </Select>
+                    <span className = "navbar-brand">Metodo de pago: 
+                      <strong> {this.state.mipedido[0].metodo_pago}</strong>
+                    </span>
                     <br></br><br></br>
                     <span className="">Subtotal: <strong>$ this.calcularSubtotal()</strong> </span><br></br>
                     <span className="">Envio: <strong>$ {this.state.envio}</strong> </span>            
@@ -231,7 +180,7 @@ class PedidoEnCurso extends Component {
                     <h4 className="">Total: <strong>$ parseInt(this.state.envio) + parseInt(this.calcularSubtotal())</strong> </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}
-                  <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
+                  <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Mi pedido ha llegado</button> 
                   <span className = ""><strong>{this.state.message_destino}</strong></span>
                   <br></br>
                   <span className = ""><strong>{this.state.message_prod}</strong></span>
@@ -244,6 +193,7 @@ class PedidoEnCurso extends Component {
         );
       }
       else {
+        console.log('! ! VACIO')
         return( <Loading/> );
       }
     }

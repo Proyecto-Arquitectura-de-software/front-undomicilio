@@ -231,7 +231,7 @@ class MiPedido extends Component {
               console.log(response);
             })
             .catch(error => {
-              console.log('ALgo fallo en la asociacion');
+              console.log('Algo fallo en la asociacion');
               console.log(error)
             })
 
