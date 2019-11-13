@@ -6,17 +6,15 @@ import { Chat } from './chat/chat';
   import '../styles/pedido.css';
 import { Loading } from './loading/loading';
 
-// URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://34.69.25.250:3100/pedidos_cliente/';
-
-// URL para crear un nuevo pedido
-var nuevoPedidoURL = 'http://34.69.25.250:3100/pedidos/';
-
-    // URL para crear las asociaciones entre productos y pedidos
-    var pedidoProductoURL = 'http://34.69.25.250:3100/pedido_producto/';
 
 // URL para obtener datos del establecimiento
 var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+
+// URL para obtener los datos de un pedido unico
+var obtenerPedidoURL = 'http://34.69.25.250:3100/pedidos/';
+
+// URL para obtener los productos asociados a un pedido unico
+var obtenerProductosURL = 'http://34.69.25.250:3100/pedido_producto/';
 
 class PedidoEnCurso extends Component {
     constructor() {
@@ -25,6 +23,7 @@ class PedidoEnCurso extends Component {
       this.state = {
         usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario            
         mipedido: {},
+        productos: {},
         metodos: [],
         metodo_escogido: "",
         envio: 0,
@@ -43,19 +42,10 @@ class PedidoEnCurso extends Component {
      
     componentDidMount() {   
       
-      // Se cargan los pedidos del usuario y el establecimiento dados
-      pedidosURL += this.state.usuario;
-      pedidosURL += '/';
-      pedidosURL += this.props.establecimiento;
-          
-      axios.get(pedidosURL)
-        .then(res => {
-        const pedido = res.data;     
-        this.setearPedido(pedido);
-      }); 
+     
 
       // Se cargan los datos del establecimiento
-      establecimientoURL += this.props.establecimiento;
+      /* establecimientoURL += this.props.establecimiento;
 
       axios.get(establecimientoURL)
         .then(res => {
@@ -66,86 +56,37 @@ class PedidoEnCurso extends Component {
       .catch(error => {
         alert('fallo obteniendo el establecimiento' + error);
         console.log(error)
-      }); 
+      });  */
 
-      //this.obtenerDatos();    
-    }
+      const { match: { params } } = this.props;      
+      //this.setState({ "establecimiento" : params.id_establecimiento});      
 
-   /*  // Se cargan los productos y los datos del pedido
-    async obtenerDatos(){      
-      let get = await fetch('http://34.69.25.250:3100/pedidos/1');      
+      obtenerPedidoURL += params.id_pedido;
+      console.log(obtenerPedidoURL);
+      this.obtenerPedido(obtenerPedidoURL);   
+      
+      obtenerProductosURL += params.id_pedido;            
+      this.obtenerProductos(obtenerProductosURL);
+    };
+
+    // Se carga el pedido recibido como parametro
+    async obtenerPedido(URL){      
+      let get = await fetch(URL);      
       let data = await get.json();
-      this.setState({"pedidos" : data});
+      this.setState({"mipedido" : data});
       //console.log("Los datos " + data);      
-    } */ 
+    } 
 
-    // Se determina si ya existe un pedido en proceso o creado. O por el contrario, se crea uno nuevo
-    setearPedido(pedidos) {
-  
-      if (pedidos.length !== 0) {          
-  
-          for (let i = 0; i < pedidos.length; i++){
-            
-            if (pedidos[i].estado === 'Creado'){                     
-              this.setState({"estado" : 'creado'});     
-              this.setState({"mipedido" : pedidos[i]});   
-              return;         
-            }
-            else if (pedidos[i].estado === 'En curso'){
-              this.setState({"estado" : 'curso'});  
-              this.setState({"mipedido" : pedidos[i]});                          
-              return;                     
-            }
-          }
-          
-          alert('Solo encontro finalizados y se crea un NUEVO pedido');
-          // Solo encontro pedidos finalizados, asi que se crea un nuevo pedido
-          this.nuevoPedido();
-  
-      }
-      
-      else { 
-          alert('Se crea un NUEVO pedido');
 
-          // No hay pedidos, se crea uno nuevo
-          this.nuevoPedido();
-      }               
-    }
-
-    nuevoPedido() {
-         this.setState({"estado" : 'creado'});     
-      
-          let body = {
-            "id_cliente": this.state.usuario,
-            "id_establecimiento": this.props.establecimiento,
-            "id_estado": 1, // (Creacion)
-            "observaciones": "",
-            "destino": "",
-            "metodo_pago": this.state.metodo_escogido
-          }
-
-          axios.post(nuevoPedidoURL, body)
-              .then(response => {
-                // console.log(response);
-                //console.log('data ' + response.data.insertId);
-                body = {
-                  "id": response.data.insertId,
-                  "id_cliente": this.state.usuario,
-                  "id_establecimiento": this.props.establecimiento,
-                  "estado": 'Creado', 
-                  "observaciones": "",
-                  "destino": "",
-                  "metodo_pago": ""
-                }
-                this.setState({ "mipedido" : body});
-              })
-              .catch(error => {
-                alert('fallo creando pedido' + error);
-                console.log(error)
-              });     
-    }   
-
-    calcularSubtotal() {
+    // Se cargan los id de los productos asociados al pedido en curso
+    async obtenerProductos(URL){      
+      let get = await fetch(URL);      
+      let data = await get.json();
+      this.setState({"productos" : data});
+      //console.log("Los datos " + data);      
+    } 
+   
+   /*  calcularSubtotal() {
       
       let resultado = 0;
       let prod = this.props.productosAgregados;
@@ -154,81 +95,8 @@ class PedidoEnCurso extends Component {
         resultado += parseInt(prod[i].precio);
       }
       return resultado;
-    }
+    } */
 
-    // La funcion que se ejecuta para solicitare el envio del pedido
-    enviarPedido = e => {    
-
-      // Primero se realizan las validaciones
-      if (this.validaciones()){        
-        // <<<Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
-        nuevoPedidoURL += this.state.mipedido.id;
-        //alert('Enviando')
-        let metodo;
-        if (document.getElementById("metodo").value <= 0){
-          metodo = "No especificado";
-        }
-        else {
-          metodo = this.state.metodos[document.getElementById("metodo").value - 1];
-        }
-
-
-        let body = {
-          "id": this.state.mipedido.id,
-          "id_cliente": this.state.usuario,
-          "id_establecimiento": this.props.establecimiento,
-          "id_estado": 2, // (En curso )
-          "observaciones": document.getElementById("observaciones").value,
-          "destino": document.getElementById("destino").value,
-          "metodo_pago": metodo
-        }
-
-
-        console.log('EL body');
-        console.log(body);
-
-        console.log('URL');
-        console.log(nuevoPedidoURL);
-
-        // Se actualiza el pedido con los datos ingresados por el usuario
-        axios
-          .put(nuevoPedidoURL, body)
-          .then(response => {
-            console.log('Se actualizo bien el pedido');
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('Algo fallo actualizando el pedido');
-            console.log(error)
-            })
-
-
-        // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
-        this.props.productosAgregados.map((item, i) => {          
-          body = {
-            "id_pedido": this.state.mipedido.id,
-            "id_producto": item.id
-          }
-
-          axios
-          .post(pedidoProductoURL, body)
-          .then(response => {
-            console.log('Se asocio el producto con el pedido');
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('ALgo fallo en la asociacion');
-            console.log(error)
-          })
-
-        });
-
-
-      }
-      else {
-        e.preventDefault();
-      }
-    }
 
 
     validaciones() {
@@ -262,8 +130,8 @@ class PedidoEnCurso extends Component {
         let metodos;
 
         // Los productos que se van agregando al pedido, son en realidad props, pues son del state del componente AgregarProductos        
-        if (this.props.productosAgregados.length > 0){
-          productos = this.props.productosAgregados.map((item, i) => {
+        if (this.state.productos.length > 0){
+          productos = this.state.productos.map((item, i) => {
             return (            
               <div className = "col-md-12 mb-2" key = {i}>     
                 <span className = "nombre">{item.nombre}</span>
@@ -318,7 +186,7 @@ class PedidoEnCurso extends Component {
                     <p className = "navbar-brand">
                       Productos
                     <span className = "badge badge-pill badge-info ml-2">
-                      {this.props.productosAgregados.length}
+                      {this.state.productos.length}
                     </span>
                     </p> 
                   </div>             
@@ -356,11 +224,11 @@ class PedidoEnCurso extends Component {
                       <MenuItem value = {0}>Elige uno</MenuItem>                      
                     </Select>
                     <br></br><br></br>
-                    <span className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </span><br></br>
+                    <span className="">Subtotal: <strong>$ this.calcularSubtotal()</strong> </span><br></br>
                     <span className="">Envio: <strong>$ {this.state.envio}</strong> </span>            
                     
                     <div className = "separator mt-1 mb-1"></div>             
-                    <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
+                    <h4 className="">Total: <strong>$ parseInt(this.state.envio) + parseInt(this.calcularSubtotal())</strong> </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}
                   <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 

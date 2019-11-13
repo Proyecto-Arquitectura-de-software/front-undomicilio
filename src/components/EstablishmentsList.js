@@ -133,12 +133,13 @@ class EstablishmentsList extends Component{
                 return;         
               }
               else if (pedidos[i].estado === 'En curso'){
-                window.location.href = "/verproductos/" + id_establecimiento;    
+                // Se pasa el pedido que esta actualmente en curso
+                window.location.href = "/pedidoencurso/" + pedidos[i].id;    
                 //this.setState({"estado" : 'curso'});  
                 //this.setState({"mipedido" : pedidos[i]});                          
                 return;                     
               }
-            }
+            }   
                     
             // Solo encontro pedidos finalizados, asi que se envia al componente MiPedido
             window.location.href = "/verproductos/" + id_establecimiento;    

@@ -62,7 +62,7 @@ class App extends Component {
             {/* Ruta a la pagina de consulta y seleccion de productos */} 
             <Route path = "/verproductos/:id_establecimiento" component = {AgregarProductos}></Route>
 
-            <Route path = "/pedidoencurso/:id_establecimiento" component = {PedidoEnCurso}></Route>
+            <Route path = "/pedidoencurso/:id_pedido" component = {PedidoEnCurso}></Route>
 
             {/* Ruta a la pagina de consulta y seleccion de productos 
             <Route path = "/verproductos/:id_establecimiento" render = {() => {

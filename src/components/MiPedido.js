@@ -15,6 +15,8 @@ var nuevoPedidoURL = 'http://34.69.25.250:3100/pedidos/';
     // URL para crear las asociaciones entre productos y pedidos
     var pedidoProductoURL = 'http://34.69.25.250:3100/pedido_producto/';
 
+var financieroURL = 'http://34.69.25.250:8000/service/factura/factura/';
+
 // URL para obtener datos del establecimiento
 var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
 
@@ -165,26 +167,25 @@ class MiPedido extends Component {
           metodo = this.state.metodos[document.getElementById("metodo").value - 1];
         }
 
+      
+          /* console.log('EL body');
+          console.log(body);
 
-        let body = {
-          "id": this.state.mipedido.id,
-          "id_cliente": this.state.usuario,
-          "id_establecimiento": this.props.establecimiento,
-          "id_estado": 2, // (En curso )
-          "observaciones": document.getElementById("observaciones").value,
-          "destino": document.getElementById("destino").value,
-          "metodo_pago": metodo
-        }
+          console.log('URL');
+          console.log(nuevoPedidoURL); */
 
+          // Se actualiza el pedido con los datos ingresados por el usuario
+          let body = {
+            "id": this.state.mipedido.id,
+            "id_cliente": this.state.usuario,
+            "id_establecimiento": this.props.establecimiento,
+            "id_estado": 2, // (En curso )
+            "observaciones": document.getElementById("observaciones").value,
+            "destino": document.getElementById("destino").value,
+            "metodo_pago": metodo
+          };
 
-        console.log('EL body');
-        console.log(body);
-
-        console.log('URL');
-        console.log(nuevoPedidoURL);
-
-        // Se actualiza el pedido con los datos ingresados por el usuario
-        axios
+          axios
           .put(nuevoPedidoURL, body)
           .then(response => {
             console.log('Se actualizo bien el pedido');
@@ -195,24 +196,44 @@ class MiPedido extends Component {
             console.log(error)
             })
 
+          // Se actualizan los datos financieros en el microservicio de facturacion
+          body = {            
+              "pedido_id": this.state.mipedido.id,
+              "costo_total": document.getElementById("total").innerHTML, // (Se guardara el total)
+              "impuesto_IVA": document.getElementById("envio").innerHTML  // (Se guardara el costo de envio)  
+          };
 
-        // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
-        this.props.productosAgregados.map((item, i) => {          
-          body = {
-            "id_pedido": this.state.mipedido.id,
-            "id_producto": item.id
-          }
+          console.log(body);
 
           axios
-          .post(pedidoProductoURL, body)
+          .post(financieroURL, body)
           .then(response => {
-            console.log('Se asocio el producto con el pedido');
+            console.log('Se guardo la informacion de facturacion el pedido');
             console.log(response);
           })
           .catch(error => {
-            console.log('ALgo fallo en la asociacion');
+            console.log('Algo fallo con la informacion de facturacion del pedido');            
             console.log(error)
           })
+
+
+          // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
+          this.props.productosAgregados.map((item, i) => {          
+            body = {
+              "id_pedido": this.state.mipedido.id,
+              "id_producto": item.id
+            }
+
+            axios
+            .post(pedidoProductoURL, body)
+            .then(response => {
+              console.log('Se asocio el producto con el pedido');
+              console.log(response);
+            })
+            .catch(error => {
+              console.log('ALgo fallo en la asociacion');
+              console.log(error)
+            })
 
         });
 
@@ -349,11 +370,18 @@ class MiPedido extends Component {
                       <MenuItem value = {0}>Elige uno</MenuItem>                      
                     </Select>
                     <br></br><br></br>
-                    <span className="">Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </span><br></br>
-                    <span className="">Envio: <strong>$ {this.state.envio}</strong> </span>            
+                    <span>Subtotal: <strong>$ {this.calcularSubtotal()}</strong> </span><br></br>
+                    <span>Envio: <strong>$ </strong> 
+                      <span id = "envio" className = "input">{this.state.envio}</span>
+                    </span>            
                     
-                    <div className = "separator mt-1 mb-1"></div>             
-                    <h4 className="">Total: <strong>$ {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}</strong> </h4>
+                    <div className = "separator mt-1 mb-1"></div>           
+
+                    <h4>Total: <strong>$ </strong>
+                      <span id = "total" className = "input">
+                        {parseInt(this.state.envio) + parseInt(this.calcularSubtotal())}
+                      </span>                      
+                    </h4>
                   </div>                              
                   {/*<Chat></Chat>*/}
                   <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
