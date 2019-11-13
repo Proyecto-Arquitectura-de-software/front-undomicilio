@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import {Route,Switch} from 'react-router-dom';
-import Hello from '../Hello';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home';
 import MiPedido from './MiPedido';
+import Productos from './Productos';
+import AgregarProductos from './AgregarProductos';
+import EstablishmentsList from './EstablishmentsList';
+
 
 class App extends Component {
   constructor() {
@@ -15,32 +18,59 @@ class App extends Component {
   render() {
 
     return (
-        <div>
+          <Router>
 
-          {/*  Asi es masomenos como se hace el enrutamiento de las vistas:
+          {/* Aqui se configuran las rutas de la aplicacion */}
 
-            ## Me esta botando un error ficty.. 
+            {/* Ruta al Home de la aplicacion */}
+            <Route exact path = "/" render = { () => {
+                return (
+                  <Home/>
+                )
+              }
+              }>
+            </Route>
 
-          <Switch>
-          
-            <Route exact path = "/" component = {Home} /> 
-           
-            <Route exact path = "/sign_in" component = {Signin} />
-            <Route exact path = "/sign_up" component = {Signup} />
-            <Route exact path = "/input_ingredients" component = {FormInputIngredients} />
-            <Route exact path = "/week_plan" component = {PlanningFood} />
-            <Route exact path = "/mykitchen" component = {MyKitchen} />
-            <Route exact path = "/mykitchen/myfavorites" component = {MyFavorites} />
-            <Route exact path = "/mykitchen/myrecipes" component = {MyRecipes} />
-            <Route exact path = "/irecipe" component = {EntryRecipe} />
-            <Route exact path = "/crecipe" component = {ChangeRecipe} />
-            <Route exact path = "/rdetail" component = {RecipeDetail} />
-            <Route exact path = "/prueba" component = {prueba} />
-          </Switch>
-          */}
+            {/* Ruta a la pagina de establecimientos */}
+            <Route exact path = "/establecimientos" render = { () => {
+                return (
+                  <EstablishmentsList user = {this.state.usuario}/>
+                )
+              }
+              }>
+            </Route>
 
-          <MiPedido/>
-        </div>
+            {/* Ruta a la pagina de pedidos */}
+            <Route exact path = "/mipedido" render = { () => {
+                return (
+                  <MiPedido/>
+                )
+              }
+              }>
+            </Route>
+
+            {/* Ruta a la pagina de edicion de productos */}
+            <Route exact path = "/productos" render = {() => {
+              return (
+                <Productos/>
+              )
+            }
+            }>
+            </Route>
+
+            {/* Ruta a la pagina de consulta y seleccion de productos */}
+            <Route path = "/verproductos/:id_establecimiento" component = {AgregarProductos}></Route>
+
+            {/* Ruta a la pagina de consulta y seleccion de productos
+            <Route path = "/verproductos/:id_establecimiento" render = {() => {
+              return (
+                <AgregarProductos user = {this.state.usuario}/>
+              )
+            }
+            }>
+            </Route>*/}
+
+          </Router>
     );
   }
 
@@ -48,4 +78,3 @@ class App extends Component {
 
 
 export default App;
-
