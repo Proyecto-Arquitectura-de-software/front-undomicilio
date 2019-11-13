@@ -5,51 +5,53 @@ import MiPedido from './MiPedido';
 import Productos from './Productos';
 import AgregarProductos from './AgregarProductos';
 import EstablishmentsList from './EstablishmentsList';
+import Login from './Login';
+import Registro from './Registro';
 
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: 'React'  
+      name: 'React'
     };
   }
 
   render() {
 
-    return (              
-          <Router>  
+    return (
+          <Router>
 
-          {/* Aqui se configuran las rutas de la aplicacion */}              
+          {/* Aqui se configuran las rutas de la aplicacion */}
 
-            {/* Ruta al Home de la aplicacion */}    
+            {/* Ruta al Home de la aplicacion */}
             <Route exact path = "/" render = { () => {
                 return (
-                  <Home/>                              
-                )  
+                  <Home/>
+                )
               }
               }>
             </Route>
 
-            {/* Ruta a la pagina de establecimientos */}    
+            {/* Ruta a la pagina de establecimientos */}
             <Route exact path = "/establecimientos" render = { () => {
                 return (
-                  <EstablishmentsList user = {this.state.usuario}/>                              
-                )  
+                  <EstablishmentsList user = {this.state.usuario}/>
+                )
               }
               }>
             </Route>
 
-            {/* Ruta a la pagina de pedidos */}    
+            {/* Ruta a la pagina de pedidos */}
             <Route exact path = "/mipedido" render = { () => {
                 return (
-                  <MiPedido/>                              
-                )  
+                  <MiPedido/>
+                )
               }
               }>
             </Route>
 
-            {/* Ruta a la pagina de edicion de productos */} 
+            {/* Ruta a la pagina de edicion de productos */}
             <Route exact path = "/productos" render = {() => {
               return (
                 <Productos/>
@@ -57,11 +59,11 @@ class App extends Component {
             }
             }>
             </Route>
-            
-            {/* Ruta a la pagina de consulta y seleccion de productos */} 
+
+            {/* Ruta a la pagina de consulta y seleccion de productos */}
             <Route path = "/verproductos/:id_establecimiento" component = {AgregarProductos}></Route>
 
-            {/* Ruta a la pagina de consulta y seleccion de productos 
+            {/* Ruta a la pagina de consulta y seleccion de productos
             <Route path = "/verproductos/:id_establecimiento" render = {() => {
               return (
                 <AgregarProductos user = {this.state.usuario}/>
@@ -69,9 +71,27 @@ class App extends Component {
 
             }
             }>
-            </Route>*/} 
+            </Route>*/}
 
-          </Router>         
+            {/* Ruta a la pagina de login */}
+            <Route exact path = "/login" render = { () => {
+                return (
+                  <Login/>
+                )
+              }
+              }>
+            </Route>
+
+            {/* Ruta a la pagina de registro */}
+            <Route exact path = "/registro" render = { () => {
+                return (
+                  <Registro/>
+                )
+              }
+              }>
+            </Route>
+
+          </Router>
     );
   }
 
@@ -79,4 +99,3 @@ class App extends Component {
 
 
 export default App;
-
