@@ -58,11 +58,11 @@ class EstablishmentsList extends Component{
                         <span className="artificialMargin"/>
                         <Button onClick={this.getList.bind(this)}>Buscar</Button>
 
-                        {/* > > Incrustacion temporal de boton para ver mi pedido < < */}
+                        {/* > > Incrustacion temporal de boton para editar productos < < */}
                         <span className="spacing"></span>
                         <span>
                           <Button variant="outlined" color="secondary">
-                            <Link to ='/Mipedido'>Mi pedido</Link>                    
+                            <Link to ='/productos'>Editar productos</Link>                    
                           </Button>
                         </span>
                     </div>
