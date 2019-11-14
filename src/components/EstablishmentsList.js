@@ -34,7 +34,7 @@ class EstablishmentsList extends Component{
     }    
     
 
-    render(){        
+    render(){
         if(this.state.list){            
             return(
                 <div>
@@ -68,27 +68,26 @@ class EstablishmentsList extends Component{
                     </div>
                     <ul className="establishmentList">
                         {this.state.list.map(e => (                        
-                        <li key = {e._id} className="establishmentDiv">
-                                      
-                            <a name = {e._id} onClick = {this.goToProducts} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
-                            <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
-                            <div>
-                                <span className="subtitleText">Categorías: </span>
-                                <span className="infoText">{e.categories.map(e => e + ", ")}</span>
-                            </div>
-                            <div>
-                                <span className="subtitleText">Dirección: </span>
-                                <span className="infoText">{e.address} </span>
-                            </div>
-                            <div>
-                                <span className="subtitleText">Tiempo de entrega: </span>
-                                <span className="infoText">{e.deliveryTime} min </span>
-                            </div>
-                            <div>
-                                <span className="subtitleText">Costo de entrega: </span>
-                                <span className="infoText">${e.deliveryCost}</span>
-                            </div>
-                        </li>
+                            <li key = {e._id} className="establishmentDiv">
+                                <a name = {e._id}  href= {this.goToProducts(e._id)} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                                <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
+                                <div>
+                                    <span className="subtitleText">Categorías: </span>
+                                    <span className="infoText">{e.categories.map(e => e + ", ")}</span>
+                                </div>
+                                <div>
+                                    <span className="subtitleText">Dirección: </span>
+                                    <span className="infoText">{e.address} </span>
+                                </div>
+                                <div>
+                                    <span className="subtitleText">Tiempo de entrega: </span>
+                                    <span className="infoText">{e.deliveryTime} min </span>
+                                </div>
+                                <div>
+                                    <span className="subtitleText">Costo de entrega: </span>
+                                    <span className="infoText">${e.deliveryCost}</span>
+                                </div>
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -98,26 +97,9 @@ class EstablishmentsList extends Component{
         }
     }
 
-    // Funcion para redirigir a la vista para escoger productos del establecimiento seleccionado o bien, para ver el estado del pedido en curso
-    goToProducts (e){	           
-        
-        let establecimiento = e.target.name;
-
-        // Se cargan los pedidos del usuario y el establecimiento dados
-        pedidosURL += this.state.usuario;
-        pedidosURL += '/';
-        pedidosURL += establecimiento;
-        console.log('La URL');
-        console.log(pedidosURL);
-
-        axios.get(pedidosURL)
-            .then(res => {
-            const pedidos = res.data;   
-            //console.log(pedidos);
-            console.log(establecimiento);
-            this.setearPedido(pedidos, establecimiento);
-        }); 
-
+    // Funcion para redirigir a los productos del establecimiento seleccionado
+    goToProducts (id){
+        return `/verproductos/${id}`;        
     }
 
     setearPedido(pedidos, id_establecimiento) { 
@@ -158,19 +140,38 @@ class EstablishmentsList extends Component{
     // ! ! ! COORDENADAS HARCODEADAS ! ! ! => falta que sean parametrizables por una vista de ubicacion
     getList(){
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `http://34.69.25.250:3001/establishments/?coordinateX=4.630854&coordinateY=-74.050782&minimumScore=${this.scoreFilter}&maximumDeliveryTime=${this.maximumDeliveryTime}`);
-
+        xhr.open('POST', `http://34.69.44.104:3002/graphql`);
+        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                   let res = JSON.parse(xhr.responseText);
-                  this.setState({"list" : res});
+                  console.log(res.data.getEstablishments);
+                  this.setState({"list" : res.data.getEstablishments});
                 } else {
                   console.error(xhr.statusText);
                 }
               }
         }.bind(this);
-        xhr.send();
+        let req = {
+            query: `{
+                getEstablishments(coordinateX: 4.630854,coordinateY: -74.050782,
+                filters:[
+                    {name: "minimumScore", value: "${this.scoreFilter}"},
+                    {name: "maximumDeliveryTime", value: "${this.maximumDeliveryTime}"}
+                ]){
+                    _id
+                    name
+                    address
+                    deliveryTime
+                    deliveryCost
+                    categories
+                    score
+                    type
+                }
+              }`
+        }
+        xhr.send(JSON.stringify(req));
     }
 
 }
