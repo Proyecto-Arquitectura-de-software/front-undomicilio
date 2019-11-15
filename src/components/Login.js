@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -43,7 +44,8 @@ export default function Login() {
 
   const [email, setEmail] = useState(0);
   const [password, setPassword] = useState(0);
-
+  const [redirect:"false", setRedirect] = useState(0);
+  
 
   const handleEvent = (event) => {
     if (event.target.name == "email"){
@@ -65,6 +67,7 @@ export default function Login() {
               console.log(res.data.login);
               localStorage.setItem('token', res.data.login)
               //this.setState({"list" : res.data.getEstablishments});
+              setRedirect('true')
             } else {
               console.error(xhr.statusText);
             }
@@ -80,72 +83,75 @@ export default function Login() {
     }
     xhr.send(JSON.stringify(req));
   }
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Inicia sesión en UNdomicilio
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField 
-            onChange={handleEvent}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email o nombre de usuario"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            onChange={handleEvent}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Clave"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recuerda mis datos"
-          />
-          <Button
-            onClick={submit}
-            
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Iniciar sesión
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                ¿Olvidaste tu clave?
-              </Link>
+  if (redirect=="true"){
+    return (<Redirect to="/establecimientos" />);
+  } else{
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Inicia sesión en UNdomicilio
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField 
+              onChange={handleEvent}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email o nombre de usuario"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              onChange={handleEvent}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Clave"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Recuerda mis datos"
+            />
+            <Button
+              onClick={submit}
+              
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Iniciar sesión
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  ¿Olvidaste tu clave?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/registro" variant="body2">
+                  {"¿No tienes cuenta? Regístrate aquí"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="/registro" variant="body2">
-                {"¿No tienes cuenta? Regístrate aquí"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-      </Box>
-    </Container>
-  );
+          </form>
+        </div>
+        <Box mt={8}>
+        </Box>
+      </Container>
+    );
+  }
 }
