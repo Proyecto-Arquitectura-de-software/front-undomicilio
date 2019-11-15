@@ -1,4 +1,4 @@
-import React from 'react';
+import React  , {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -41,6 +41,46 @@ const useStyles = makeStyles(theme => ({
 export default function Login() {
   const classes = useStyles();
 
+  const [email, setEmail] = useState(0);
+  const [password, setPassword] = useState(0);
+
+
+  const handleEvent = (event) => {
+    if (event.target.name == "email"){
+      setEmail(event.target.value)
+    }else{
+      setPassword(event.target.value)
+    } 
+  }
+
+  const submit = (event) => {
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', `http://34.69.44.104:3002/graphql`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              let res = JSON.parse(xhr.responseText);
+              console.log(res.data.login);
+              localStorage.setItem('token', res.data.login)
+              //this.setState({"list" : res.data.getEstablishments});
+            } else {
+              console.error(xhr.statusText);
+            }
+          }
+    }.bind(this);
+    let req = {
+        query: `{
+          login(credentials:{
+            password: "${password}"
+            username: "${email}"
+          })
+        }`
+    }
+    xhr.send(JSON.stringify(req));
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -52,7 +92,8 @@ export default function Login() {
           Inicia sesión en UNdomicilio
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
+          <TextField 
+            onChange={handleEvent}
             variant="outlined"
             margin="normal"
             required
@@ -64,6 +105,7 @@ export default function Login() {
             autoFocus
           />
           <TextField
+            onChange={handleEvent}
             variant="outlined"
             margin="normal"
             required
@@ -79,7 +121,8 @@ export default function Login() {
             label="Recuerda mis datos"
           />
           <Button
-            type="submit"
+            onClick={submit}
+            
             fullWidth
             variant="contained"
             color="primary"
