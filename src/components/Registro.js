@@ -12,6 +12,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -98,6 +104,16 @@ export default function Registro() {
                 id="clave"
                 autoComplete="tu clave actual"
               />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">¿Qué usuario serás en UNdomicilio?</FormLabel>
+                <RadioGroup aria-label="tipo_usuario" name="tipo_usuario" /*value={value} onChange={handleChange}*/>
+                  <FormControlLabel value="establecimiento" control={<Radio color="primary" />} label="Establecimiento" />
+                  <FormControlLabel value="cliente" control={<Radio color="primary" />} label="Cliente" />
+                </RadioGroup>
+              </FormControl>
             </Grid>
 
           </Grid>

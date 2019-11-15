@@ -31,7 +31,7 @@ class App extends Component {
                   /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >
                   <Home/>
                   */
-                  <EstablishmentsList />
+                  <Home/>
                 )
               }
               }>
@@ -69,7 +69,7 @@ class App extends Component {
 
             <Route path = "/pedidoencurso/:id_pedido" component = {PedidoEnCurso}></Route>
 
-            {/* Ruta a la pagina de consulta y seleccion de productos 
+            {/* Ruta a la pagina de consulta y seleccion de productos
             <Route path = "/verproductos/:id_establecimiento" render = {() => {
               return (
                 <AgregarProductos user = {this.state.usuario}/>
