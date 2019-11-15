@@ -8,7 +8,13 @@ import { Loading } from './loading/loading';
 
 
 // URL para obtener datos del establecimiento
-var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+//var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+
+// URL para obtener los datos de un producto
+var productoURL = 'http://34.69.25.250:3000/products/';
+
+// URL para obtener informacion de facturacion
+var obtenerFacturaURL = 'http://34.69.25.250:8000/service/factura/factura/';
 
 // URL para obtener los datos de un pedido unico
 var obtenerPedidoURL = 'http://34.69.25.250:3100/pedidos/';
@@ -18,26 +24,17 @@ var obtenerProductosURL = 'http://34.69.25.250:3100/pedido_producto/';
 
 class PedidoEnCurso extends Component {
     constructor() {
-      super();
-      this.scoreFilter = 0; // Corresponde al indice del select list de metodos de pago     
-      this.state = {
-        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario            
+      super();      
+      this.state = {        
         mipedido: {},
         productos: {},
         metodos: [],
         metodo_escogido: "",
         envio: 0,
-        estado: null,
-        message_destino: "",
-        message_prod: "" 
+        total: 0
       };
       
-      this.setFilterValue = (value) => {
-        return (event) => {
-            this[value] = event.target.value;
-            this.setState(this.state);
-        };
-    };
+      
     }
      
     componentDidMount() {   
@@ -51,36 +48,84 @@ class PedidoEnCurso extends Component {
       
       obtenerProductosURL += params.id_pedido;              
       this.obtenerProductos(obtenerProductosURL);
+      
+      this.obtenerFactura(obtenerFacturaURL);
     };
 
     // Se carga el pedido recibido como parametro
     async obtenerPedido(URL){      
       let get = await fetch(URL);      
       let data = await get.json();
-      console.log(data);
+      //console.log(data);
       this.setState({"mipedido" : data});
       //console.log("Los datos " + data);      
     } 
 
 
     // Se cargan los id de los productos asociados al pedido en curso
-    async obtenerProductos(URL){      
-      let get = await fetch(URL);      
-      let data = await get.json();
-      console.log(data);
-      this.setState({"productos" : data});
-      //console.log("Los datos " + data);      
+    async obtenerProductos(idsURL){      
+
+      let get = await fetch(idsURL);      
+      let id_productos = await get.json();
+
+      let URL;
+      let productos = [];
+      let data;
+
+      for (let i = 0; i < id_productos.length; i++){
+        
+        // Se hace la peticion de la informacion de cada producto
+        URL = productoURL + id_productos[i].id_producto;
+
+        data = await fetch(URL); 
+        data = await data.json();
+
+        productos.push(data);
+      }
+
+      this.setState({"productos" : productos});      
     } 
  
 
-    // Falta cargar la informacion completa de los productos
-    // Nombre, image, descripcion, precio...
+    // Se cargaa la informacion financiera del pedido 
+    async obtenerFactura(URL){      
+
+      let get = await fetch(URL);      
+      let financiero = await get.json();
+      
+      console.log(financiero);
+
+      //console.log(this.state.mipedido[0].id);            
+      let factura;
+
+      for (let i = 0; i < financiero.length; i++){
+                
+        
+        if (this.state.mipedido.length > 0){
+
+          // Si el id del pedido guardado en la factura coincide con el pedido cargado actualmente, hemos hallado el pedido que estamos buscando
+          if (financiero[i].pedido_id === this.state.mipedido[0].id){          
+            factura = financiero[i];
+            break;
+          }
+        }
+      }
+
+      if (this.state.mipedido.length > 0){
+        this.setState({"envio" : factura.impuesto_IVA});
+        this.setState({"total" : factura.costo_total});
+
+        console.log(this.state.envio);
+        console.log(this.state.total);
+      }
+      //console.log("Los datos " + data);      
+    } 
 
     
   
     render() {     
             
-      if (this.state.mipedido.length > 0){        
+      if (this.state.productos.length > 0){        
         //console.log(this.state.mipedido[0].destino);
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
@@ -88,34 +133,27 @@ class PedidoEnCurso extends Component {
         // El componente de seleccion de metodos de pago segun el establecimiento
         let metodos;
 
-        // Los productos que se van agregando al pedido, son en realidad props, pues son del state del componente AgregarProductos        
-        if (this.state.productos.length > 0){
-          productos = this.state.productos.map((item,i) => {
-            return(
-              <div className="col-md-4">
-                <div className="card">
-                  <div className="card-header">
-                    <h3>{item.id_producto}</h3>
-                    <div className="cardImg">
-                      <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
-                    </div>                
-                    <p className="text badge badge-warning mt-2">$ {item.price}</p>
-                  </div>
-                  <div className="center mt-2 mb-2">    
-                  <span>{item.description}</span> 
-                  </div>
-                 
+        // Los productos que conforman el pedido            
+        productos = this.state.productos.map((item,i) => {
+          return(
+            <div className="col-md-4">
+              <div className="card mb-3">
+                <div className="card center">                  
+                  <h3>{item[0].name}</h3>
+                </div>  
+                <div className="card-header">
+                  <div className="cardImg">
+                    <img src={item[0].image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
+                  </div>                
+                  <p className="text badge badge-warning mt-2">$ {item[0].price}</p>
                 </div>
-              </div>  
-            )
-          })
-        }   
-        else {
-          productos = 
-          <div>
-            <h3 className = "empty-products">No has agregado productos</h3 >
-          </div>
-        }  
+                <div className="center mt-2 mb-2">    
+                  <span>{item[0].description}</span> 
+                </div>                
+              </div>
+            </div>  
+          )
+        })
 
         metodos = this.state.metodos.map((item, i) => {
           return (                    
@@ -173,17 +211,14 @@ class PedidoEnCurso extends Component {
                       <strong> {this.state.mipedido[0].metodo_pago}</strong>
                     </span>
                     <br></br><br></br>
-                    <span className="">Subtotal: <strong>$ this.calcularSubtotal()</strong> </span><br></br>
+                    <span className="">Subtotal: <strong>$ {parseInt(this.state.total) - parseInt(this.state.envio)}</strong> </span><br></br>
                     <span className="">Envio: <strong>$ {this.state.envio}</strong> </span>            
                     
                     <div className = "separator mt-1 mb-1"></div>             
-                    <h4 className="">Total: <strong>$ parseInt(this.state.envio) + parseInt(this.calcularSubtotal())</strong> </h4>
+                    <h4 className="">Total: <strong>$ {this.state.total}</strong> </h4>
                   </div>                              
-                  {/*<Chat></Chat>*/}
+                  {<Chat></Chat>}
                   <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Mi pedido ha llegado</button> 
-                  <span className = ""><strong>{this.state.message_destino}</strong></span>
-                  <br></br>
-                  <span className = ""><strong>{this.state.message_prod}</strong></span>
                 </div>
               </div>  
 
@@ -193,7 +228,7 @@ class PedidoEnCurso extends Component {
         );
       }
       else {
-        console.log('! ! VACIO')
+        //console.log('! ! VACIO')
         return( <Loading/> );
       }
     }

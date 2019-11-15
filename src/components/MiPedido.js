@@ -160,80 +160,76 @@ class MiPedido extends Component {
         nuevoPedidoURL += this.state.mipedido.id;
         //alert('Enviando')
         let metodo;
-        if (document.getElementById("metodo").value <= 0){
+
+        
+        if (document.getElementById("metodo").innerHTML === 'Elige uno'){
           metodo = "No especificado";
         }
         else {
-          metodo = this.state.metodos[document.getElementById("metodo").value - 1];
-        }
+          metodo = document.getElementById("metodo").innerHTML;
+        }        
 
-      
-          /* console.log('EL body');
-          console.log(body);
 
-          console.log('URL');
-          console.log(nuevoPedidoURL); */
+        // Se actualiza el pedido con los datos ingresados por el usuario
+        let body = {
+          "id": this.state.mipedido.id,
+          "id_cliente": this.state.usuario,
+          "id_establecimiento": this.props.establecimiento,
+          "id_estado": 2, // (En curso )
+          "observaciones": document.getElementById("observaciones").value,
+          "destino": document.getElementById("destino").value,
+          "metodo_pago": metodo
+        };
 
-          // Se actualiza el pedido con los datos ingresados por el usuario
-          let body = {
-            "id": this.state.mipedido.id,
-            "id_cliente": this.state.usuario,
-            "id_establecimiento": this.props.establecimiento,
-            "id_estado": 2, // (En curso )
-            "observaciones": document.getElementById("observaciones").value,
-            "destino": document.getElementById("destino").value,
-            "metodo_pago": metodo
-          };
+        axios
+        .put(nuevoPedidoURL, body)
+        .then(response => {
+          console.log('Se actualizo bien el pedido');
+          console.log(response);
+        })
+        .catch(error => {
+          console.log('Algo fallo actualizando el pedido');
+          console.log(error)
+          })
+
+        // Se actualizan los datos financieros en el microservicio de facturacion
+        body = {            
+            "pedido_id": this.state.mipedido.id,
+            "costo_total": document.getElementById("total").innerHTML, // (Se guardara el total)
+            "impuesto_IVA": document.getElementById("envio").innerHTML  // (Se guardara el costo de envio)  
+        };
+
+        console.log(body);
+
+        axios
+        .post(financieroURL, body)
+        .then(response => {
+          console.log('Se guardo la informacion de facturacion el pedido');
+          console.log(response);
+        })
+        .catch(error => {
+          console.log('Algo fallo con la informacion de facturacion del pedido');            
+          console.log(error)
+        })
+
+
+        // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
+        this.props.productosAgregados.map((item, i) => {          
+          body = {
+            "id_pedido": this.state.mipedido.id,
+            "id_producto": item.id
+          }
 
           axios
-          .put(nuevoPedidoURL, body)
+          .post(pedidoProductoURL, body)
           .then(response => {
-            console.log('Se actualizo bien el pedido');
+            console.log('Se asocio el producto con el pedido');
             console.log(response);
           })
           .catch(error => {
-            console.log('Algo fallo actualizando el pedido');
-            console.log(error)
-            })
-
-          // Se actualizan los datos financieros en el microservicio de facturacion
-          body = {            
-              "pedido_id": this.state.mipedido.id,
-              "costo_total": document.getElementById("total").innerHTML, // (Se guardara el total)
-              "impuesto_IVA": document.getElementById("envio").innerHTML  // (Se guardara el costo de envio)  
-          };
-
-          console.log(body);
-
-          axios
-          .post(financieroURL, body)
-          .then(response => {
-            console.log('Se guardo la informacion de facturacion el pedido');
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('Algo fallo con la informacion de facturacion del pedido');            
+            console.log('Algo fallo en la asociacion');
             console.log(error)
           })
-
-
-          // Se crean los registros en la tabla pedido_producto que relacionan los productos agregados con este pedido en particular
-          this.props.productosAgregados.map((item, i) => {          
-            body = {
-              "id_pedido": this.state.mipedido.id,
-              "id_producto": item.id
-            }
-
-            axios
-            .post(pedidoProductoURL, body)
-            .then(response => {
-              console.log('Se asocio el producto con el pedido');
-              console.log(response);
-            })
-            .catch(error => {
-              console.log('Algo fallo en la asociacion');
-              console.log(error)
-            })
 
         });
 
@@ -241,6 +237,8 @@ class MiPedido extends Component {
       }
       else {
         e.preventDefault();
+
+        
       }
     }
 
