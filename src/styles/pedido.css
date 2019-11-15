@@ -1,0 +1,53 @@
+
+
+.input {    
+    font-weight: bold;
+}
+
+.financiero {
+    background-color: rgba(240, 122, 93, 0.093);
+}
+
+.agregar {
+    width: 100%;
+}
+
+.enviar {
+    width: 100%;
+    font-weight: bold;
+}
+
+.center{
+    text-align: center;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+
+.text{
+    font-size: medium;
+}
+
+.nombre{
+    font-size: medium;
+    font-weight: bold;
+}
+
+.remove {
+    font-size: large;
+    cursor: pointer;
+}
+
+.separator {
+    height: 1px;
+    background-color: black;
+}
+
+.empty-products {
+    color: tomato;
+}

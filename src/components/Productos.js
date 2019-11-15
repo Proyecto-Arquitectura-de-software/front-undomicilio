@@ -58,7 +58,8 @@ render() {
                 <p>{item.description}</p>
               </div>
               <div className="card-footer">
-                <button className="btn btn-info" onClick={() => this.props.editProduct(item.publicationID)}>Edit</button>       
+                {/* ! ! ! Se oculta temporalmente el boton de Editar hasta que se implemente la funcionalidad */}
+                <button className="btn btn-info invisible" onClick={() => this.props.editProduct(item.publicationID)}>Edit</button>       
                 <button className="btn btn-danger" onClick={() => this.deleteProduct(item.publicationID)}>Delete</button>  
               </div>
             </div>

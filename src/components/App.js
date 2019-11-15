@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from './Home';
 import MiPedido from './MiPedido';
+import PedidoEnCurso from './PedidoEnCurso';
 import Productos from './Productos';
 import AgregarProductos from './AgregarProductos';
 import EstablishmentsList from './EstablishmentsList';
@@ -27,7 +28,10 @@ class App extends Component {
             {/* Ruta al Home de la aplicacion */}
             <Route exact path = "/" render = { () => {
                 return (
+                  /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >
                   <Home/>
+                  */
+                  <EstablishmentsList />
                 )
               }
               }>
@@ -63,7 +67,9 @@ class App extends Component {
             {/* Ruta a la pagina de consulta y seleccion de productos */}
             <Route path = "/verproductos/:id_establecimiento" component = {AgregarProductos}></Route>
 
-            {/* Ruta a la pagina de consulta y seleccion de productos
+            <Route path = "/pedidoencurso/:id_pedido" component = {PedidoEnCurso}></Route>
+
+            {/* Ruta a la pagina de consulta y seleccion de productos 
             <Route path = "/verproductos/:id_establecimiento" render = {() => {
               return (
                 <AgregarProductos user = {this.state.usuario}/>

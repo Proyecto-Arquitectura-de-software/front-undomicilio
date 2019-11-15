@@ -113,7 +113,7 @@ export default function SignInSide() {
             >
               Registrarse
             </Button>
-            <Box mt={5}>
+            <Box mt={0}>
             </Box>
           </form>
         </div>

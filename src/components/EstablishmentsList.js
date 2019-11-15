@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { Rating } from '@material-ui/lab';
+import axios from 'axios';
 import {Select, MenuItem, Button} from '@material-ui/core';
 import '../styles/establishmentsList.css';
 import { Loading } from './loading/loading';
 
+// URL para consultar los pedidos de un cliente y un establecimiento dados
+var pedidosURL = 'http://34.69.25.250:3100/pedidos_cliente/';
+
 class EstablishmentsList extends Component{
     
-    constructor(props){
-        super(props);
-        this.state = {};        
+    constructor(){
+        super();
+        this.state = {
+            usuario: '5dc22701c7900c00135e604c' // > > > Por ahora se maneja por defecto el identificador del usuario              
+        };        
         this.scoreFilter = 0;        
         //alert(this.props.user);
         this.maximumDeliveryTime = 10000;
@@ -19,18 +25,11 @@ class EstablishmentsList extends Component{
                 this.setState(this.state);
             };
         };
+
+        this.goToProducts = this.goToProducts.bind(this);
     }
 
-    componentDidMount() {
-           
-
-        /* axios.get(`/api/users/${params.userId}`)
-          .then(({ data: user }) => {
-            console.log('user', user);
-      
-            this.setState({ user });
-          }); */
-          
+    componentDidMount() {                  
         this.getList();
     }    
     
@@ -59,18 +58,18 @@ class EstablishmentsList extends Component{
                         <span className="artificialMargin"/>
                         <Button onClick={this.getList.bind(this)}>Buscar</Button>
 
-                        {/* > > Incrustacion temporal de boton para ver mi pedido < < */}
+                        {/* > > Incrustacion temporal de boton para editar productos < < */}
                         <span className="spacing"></span>
                         <span>
                           <Button variant="outlined" color="secondary">
-                            <Link to ='/Mipedido'>Mi pedido</Link>                    
+                            <Link to ='/productos'>Editar productos</Link>                    
                           </Button>
                         </span>
                     </div>
                     <ul className="establishmentList">
                         {this.state.list.map(e => (                        
                             <li key = {e._id} className="establishmentDiv">
-                                <a name = {e._id}  href= {this.goToProducts(e._id)} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                                <a name = {e._id}  onClick = {this.goToProducts} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                                 <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                                 <div>
                                     <span className="subtitleText">Categorías: </span>
@@ -99,9 +98,61 @@ class EstablishmentsList extends Component{
     }
 
     // Funcion para redirigir a los productos del establecimiento seleccionado
-    goToProducts (id){
-        return `/verproductos/${id}`;        
+    goToProducts (e){	           
+        
+        let establecimiento = e.target.name;
+
+        // Se cargan los pedidos del usuario y el establecimiento dados
+        pedidosURL += this.state.usuario;
+        pedidosURL += '/';
+        pedidosURL += establecimiento;
+        console.log('La URL');
+        console.log(pedidosURL);
+
+        axios.get(pedidosURL)
+            .then(res => {
+            const pedidos = res.data;   
+            //console.log(pedidos);
+            console.log(establecimiento);
+            this.setearPedido(pedidos, establecimiento);
+        }); 
+
     }
+
+
+    setearPedido(pedidos, id_establecimiento) { 
+  
+        if (pedidos.length !== 0) {          
+    
+            for (let i = 0; i < pedidos.length; i++){
+              
+              if (pedidos[i].estado === 'Creado'){   
+                window.location.href = "/verproductos/" + id_establecimiento;                     
+                //this.setState({"estado" : 'creado'});     
+                //this.setState({"mipedido" : pedidos[i]});   
+                return;         
+              }
+              else if (pedidos[i].estado === 'En curso'){
+                // Se pasa el pedido que esta actualmente en curso
+                window.location.href = "/pedidoencurso/" + pedidos[i].id;    
+                //this.setState({"estado" : 'curso'});  
+                //this.setState({"mipedido" : pedidos[i]});                          
+                return;                     
+              }
+            }   
+                    
+            // Solo encontro pedidos finalizados, asi que se envia al componente MiPedido
+            window.location.href = "/verproductos/" + id_establecimiento;    
+    
+        }
+        
+        else {             
+            // No hay pedidos, se envia al componente MiPedido
+            window.location.href = "/verproductos/" + id_establecimiento;    
+        }               
+      }
+
+
 
     // Funcio para obtener todos los establecimientos cercanos a las coordenadas dadas
     // ! ! ! COORDENADAS HARCODEADAS ! ! ! => falta que sean parametrizables por una vista de ubicacion
