@@ -69,7 +69,7 @@ class EstablishmentsList extends Component{
                     <ul className="establishmentList">
                         {this.state.list.map(e => (                        
                             <li key = {e._id} className="establishmentDiv">
-                                <a name = {e._id}  href= {this.goToProducts(e._id)} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
+                                <a name = {e._id}  onClick = {this.goToProducts} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                                 <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                                 <div>
                                     <span className="subtitleText">Categorías: </span>
@@ -98,9 +98,27 @@ class EstablishmentsList extends Component{
     }
 
     // Funcion para redirigir a los productos del establecimiento seleccionado
-    goToProducts (id){
-        return `/verproductos/${id}`;        
+    goToProducts (e){	           
+        
+        let establecimiento = e.target.name;
+
+        // Se cargan los pedidos del usuario y el establecimiento dados
+        pedidosURL += this.state.usuario;
+        pedidosURL += '/';
+        pedidosURL += establecimiento;
+        console.log('La URL');
+        console.log(pedidosURL);
+
+        axios.get(pedidosURL)
+            .then(res => {
+            const pedidos = res.data;   
+            //console.log(pedidos);
+            console.log(establecimiento);
+            this.setearPedido(pedidos, establecimiento);
+        }); 
+
     }
+
 
     setearPedido(pedidos, id_establecimiento) { 
   
