@@ -65,6 +65,7 @@ class EstablishmentsList extends Component{
                             <Link to ='/productos'>Editar productos</Link>                    
                           </Button>
                         </span>
+
                     </div>
                     <ul className="establishmentList">
                         {this.state.list.map(e => (                        
@@ -119,7 +120,8 @@ class EstablishmentsList extends Component{
 
     }
 
-
+    // Funcion que recoge todos los pedidos de un cliente y un establecimiento dados,
+    // A continuacion, se busca si hay un pedido en curso o no.
     setearPedido(pedidos, id_establecimiento) { 
   
         if (pedidos.length !== 0) {          
@@ -171,6 +173,7 @@ class EstablishmentsList extends Component{
                 }
               }
         }.bind(this);
+
         let req = {
             query: `{
                 getEstablishments(coordinateX: 4.630854,coordinateY: -74.050782,
