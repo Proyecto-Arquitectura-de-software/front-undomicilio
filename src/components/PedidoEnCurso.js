@@ -7,8 +7,8 @@ import { Chat } from './chat/chat';
 import { Loading } from './loading/loading';
 
 
-// URL para obtener datos del establecimiento
-//var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+// URL para actualizar un pedido
+var actualizarPedidoURL = 'http://34.69.25.250:3100/pedidos/';
 
 // URL para obtener los datos de un producto
 var productoURL = 'http://34.69.25.250:3000/products/';
@@ -25,16 +25,15 @@ var obtenerProductosURL = 'http://34.69.25.250:3100/pedido_producto/';
 class PedidoEnCurso extends Component {
     constructor() {
       super();      
-      this.state = {        
+      this.state = {     
+        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario a   
         mipedido: {},
         productos: {},
         metodos: [],
         metodo_escogido: "",
         envio: 0,
         total: 0
-      };
-      
-      
+      };     
     }
      
     componentDidMount() {   
@@ -104,7 +103,8 @@ class PedidoEnCurso extends Component {
         if (this.state.mipedido.length > 0){
 
           // Si el id del pedido guardado en la factura coincide con el pedido cargado actualmente, hemos hallado el pedido que estamos buscando
-          if (financiero[i].pedido_id === this.state.mipedido[0].id){          
+          if (financiero[i].pedido_id === this.state.mipedido[0].id){ 
+            console.log('EL id de pedido: ' + financiero[i].pedido_id);  
             factura = financiero[i];
             break;
           }
@@ -121,6 +121,32 @@ class PedidoEnCurso extends Component {
       //console.log("Los datos " + data);      
     } 
 
+    finalizarPedido = e => {  
+    // Se actualiza el estado del pedido a finalizado
+    e.preventDefault();
+    actualizarPedidoURL += this.state.mipedido[0].id;
+
+      let body = {
+        "id": this.state.mipedido[0].id,
+        "id_cliente": this.state.usuario,
+        "id_establecimiento": this.state.mipedido[0].id_establecimiento,
+        "id_estado": 3, // (Fianlizado )
+        "observaciones": this.state.mipedido[0].observaciones,
+        "destino": this.state.mipedido[0].destino,
+        "metodo_pago": this.state.mipedido[0].metodo_pago
+      };
+
+      axios
+      .put(actualizarPedidoURL, body)
+      .then(response => {
+        console.log('Se actualizo bien el pedido a finalizado !!');
+        console.log(response);
+      })
+      .catch(error => {
+        console.log('Algo fallo actualizando el pedido');
+        console.log(error)
+      }) 
+    }
     
   
     render() {     
@@ -169,7 +195,7 @@ class PedidoEnCurso extends Component {
           
           <div>                                        
             <h3 className = "card card-header mb-2"><strong>Pedido en curso</strong></h3>
-            <form onSubmit = {this.enviarPedido}>              
+            <form onSubmit = {this.finalizarPedido}>                
               <div className = "card">
                 <div className = "card-body"> 
                                     
@@ -204,9 +230,7 @@ class PedidoEnCurso extends Component {
               
               <div className = "card mt-2 financiero">
                 <div className = "card-body">                  
-                  <div className = "ml-1">              
-                    
-                    <strong>{/*this.state.metodos*/}</strong>
+                  <div className = "ml-1">                                  
                     <span className = "navbar-brand">Metodo de pago: 
                       <strong> {this.state.mipedido[0].metodo_pago}</strong>
                     </span>
@@ -221,14 +245,12 @@ class PedidoEnCurso extends Component {
                   <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Mi pedido ha llegado</button> 
                 </div>
               </div>  
-
             </form>
            
           </div>         
         );
       }
-      else {
-        //console.log('! ! VACIO')
+      else {      
         return( <Loading/> );
       }
     }

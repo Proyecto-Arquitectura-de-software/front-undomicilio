@@ -170,27 +170,27 @@ class MiPedido extends Component {
         }        
 
 
-        // Se actualiza el pedido con los datos ingresados por el usuario
-        let body = {
-          "id": this.state.mipedido.id,
-          "id_cliente": this.state.usuario,
-          "id_establecimiento": this.props.establecimiento,
-          "id_estado": 2, // (En curso )
-          "observaciones": document.getElementById("observaciones").value,
-          "destino": document.getElementById("destino").value,
-          "metodo_pago": metodo
-        };
+          // Se actualiza el pedido con los datos ingresados por el usuario
+          let body = {
+            "id": this.state.mipedido.id,
+            "id_cliente": this.state.usuario,
+            "id_establecimiento": this.props.establecimiento,
+            "id_estado": 2, // (En curso )
+            "observaciones": document.getElementById("observaciones").value,
+            "destino": document.getElementById("destino").value,
+            "metodo_pago": metodo
+          };
 
-        axios
-        .put(nuevoPedidoURL, body)
-        .then(response => {
-          console.log('Se actualizo bien el pedido');
-          console.log(response);
-        })
-        .catch(error => {
-          console.log('Algo fallo actualizando el pedido');
-          console.log(error)
+          axios
+          .put(nuevoPedidoURL, body)
+          .then(response => {
+            console.log('Se actualizo bien el pedido');
+            console.log(response);
           })
+          .catch(error => {
+            console.log('Algo fallo actualizando el pedido');
+            console.log(error)
+            })
 
         // Se actualizan los datos financieros en el microservicio de facturacion
         body = {            
@@ -304,9 +304,7 @@ class MiPedido extends Component {
           )
         });
       
-        // No se han agregado productos al pedido
-        ////onClick = {() => this.props.eliminarProducto.bind(this, item.publicationID)}>       
-                
+        // No se han agregado productos al pedido                           
     
         return (  
           
