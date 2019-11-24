@@ -31,8 +31,8 @@ class PedidoEnCurso extends Component {
         productos: {},
         metodos: [],
         metodo_escogido: "",
-        envio: 0,
-        total: 0
+        envio: -1,
+        total: -1
       };     
     }
      
@@ -151,7 +151,7 @@ class PedidoEnCurso extends Component {
   
     render() {     
             
-      if (this.state.productos.length > 0){        
+      if (this.state.productos.length > 0 && this.state.total !== -1){        
         //console.log(this.state.mipedido[0].destino);
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
