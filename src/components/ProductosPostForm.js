@@ -13,27 +13,24 @@ class ProductsPostForm extends Component {
 		this.state = {
 			name: '',
 			description: '',
-            price: '',
+			price: '',
+			establishmentID: '5db30354c7900c00135e604a', // < < < ID temporal al final > > >
             image: [],
             
 		}
 	}
-
-
         
 	changeHandler = e => {
 		this.setState({ [e.target.name]: e.target.value })
     }
     
-
-
 	submitHandler = e => {
-		e.preventDefault()
-		console.log(this.state)
+		e.preventDefault();
+		console.log(this.state);
 		axios
 			.post(apiUrl, this.state)
 			.then(response => {
-				console.log(response)
+				console.log(response);
 			})
 			.catch(error => {
 				console.log(error)
@@ -82,10 +79,9 @@ class ProductsPostForm extends Component {
 						/>
 					</div>
                     <div className="form-group">
-                        <FileBase64 multiple={ false } onDone={ this.getFiles.bind(this) } />
-					    
+                        <FileBase64 multiple = {false} onDone ={this.getFiles.bind(this)} />
 					</div>
-					<button type="submit" className="btn btn-primary">Agregar producto</button>
+					<button type="submit" className="btn btn-primary agregar">Agregar producto</button>
 				</form>
 			</div>
 		)

@@ -155,7 +155,7 @@ class MiPedido extends Component {
 
       // Primero se realizan las validaciones
       if (this.validaciones()){  
-        e.preventDefault();      
+             
         // <<<Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
         nuevoPedidoURL += this.state.mipedido.id;
         //alert('Enviando')
@@ -233,6 +233,8 @@ class MiPedido extends Component {
 
         });
 
+        // Finalmente, se redirige a la vista de pedido en curso
+        window.location.href = "/pedidoencurso/" + this.state.mipedido.id; 
 
       }
       else {
