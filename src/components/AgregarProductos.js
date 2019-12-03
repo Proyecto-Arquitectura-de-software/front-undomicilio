@@ -4,7 +4,7 @@ import { Loading } from './loading/loading';
 import MiPedido from './MiPedido';
 
 // URL para consultar todos los productos existentes
-const productosURL = 'http://34.69.25.250:3000/products/';
+const productosURL = 'http://34.69.44.104:8003/products/';
 
 
 class AgregarProductos extends Component {
