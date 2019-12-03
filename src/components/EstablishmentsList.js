@@ -7,7 +7,7 @@ import '../styles/establishmentsList.css';
 import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://34.69.25.250:3100/pedidos_cliente/';
+var pedidosURL = 'http://34.69.25.250:8002/pedidos_cliente/';
 
 class EstablishmentsList extends Component{
     
