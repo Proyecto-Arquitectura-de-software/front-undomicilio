@@ -7,18 +7,18 @@ import { Chat } from './chat/chat';
 import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://34.69.25.250:3100/pedidos_cliente/';
+var pedidosURL = 'http://34.68.155.93:8002/pedidos_cliente/';
 
 // URL para crear un nuevo pedido
-var nuevoPedidoURL = 'http://34.69.25.250:3100/pedidos/';
+var nuevoPedidoURL = 'http://34.68.155.93:8002/pedidos/';
 
     // URL para crear las asociaciones entre productos y pedidos
-    var pedidoProductoURL = 'http://34.69.25.250:3100/pedido_producto/';
+    var pedidoProductoURL = 'http://34.68.155.93:8002/pedido_producto/';
 
-var financieroURL = 'http://34.69.25.250:8000/service/factura/factura/';
+var financieroURL = 'http://35.239.125.16:8001/service/factura/factura/';
 
 // URL para obtener datos del establecimiento
-var establecimientoURL = 'http://34.69.25.250:3001/establishments/';
+var establecimientoURL = 'http://34.68.155.93:8003/establishments/';
 
 class MiPedido extends Component {
     constructor() {
