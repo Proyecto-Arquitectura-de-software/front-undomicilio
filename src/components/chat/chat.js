@@ -57,8 +57,8 @@ export class Chat extends Component {
         method: 'post', 
         url: 'http://34.69.25.250:3201/mensaje',
         data: {
-          "id_cliente": a,
-	        "id_establecimiento": b,
+          "id_cliente": "a",
+	        "id_establecimiento": "b",
 	        "remitente": this.user ? 1 : 0,
 	        "mensaje": this.state.mensaje
         }
