@@ -28,10 +28,10 @@ class App extends Component {
             {/* Ruta al Home de la aplicacion */}
             <Route exact path = "/" render = { () => {
                 return (
-                  /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >                
-                  <Home />
-                  */
+                  /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >                                  
                   <EstablishmentsList />
+                  */
+                  <Login />
                 )
               }
               }>

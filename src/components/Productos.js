@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductsPostForm from './ProductosPostForm';
 
 // URL para consultar los productos del establecimiento logueado como usuario
-var apiUrl = 'http://34.69.25.250:3000/products/establishment/';
+var apiUrl = 'http://34.70.223.126:3010/products/establishment/';
 
 
 class Productos extends Component {

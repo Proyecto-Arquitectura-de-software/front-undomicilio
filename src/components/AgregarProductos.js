@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Loading } from './loading/loading';
 import MiPedido from './MiPedido';
+import jwt_decode from 'jwt-decode';
 
 // URL para consultar todos los productos existentes
-const productosURL = 'http://34.69.44.104:8003/products/';
+const productosURL = 'http://34.70.223.126:3010/products/';
 
 
 class AgregarProductos extends Component {
+     
 
     constructor(props) {
       super(props);
+
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);     
     
       this.state = {
         error: null,
-        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario
+        usuario: decoded.id, 
         establecimiento: null,
         productos: [],
         productosAgregados: []

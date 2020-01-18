@@ -2,30 +2,35 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Select, MenuItem} from '@material-ui/core';
 import { Chat } from './chat/chat';
+import jwt_decode from 'jwt-decode';
 
   import '../styles/pedido.css';
 import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://34.68.155.93:8002/pedidos_cliente/';
+var pedidosURL = 'http://35.188.177.250:3011/pedidos_cliente/';
 
 // URL para crear un nuevo pedido
-var nuevoPedidoURL = 'http://34.68.155.93:8002/pedidos/';
+var nuevoPedidoURL = 'http://35.188.177.250:3011/pedidos/';
 
     // URL para crear las asociaciones entre productos y pedidos
-    var pedidoProductoURL = 'http://34.68.155.93:8002/pedido_producto/';
+    var pedidoProductoURL = 'http://35.188.177.250:3011/pedido_producto/';
 
-var financieroURL = 'http://35.239.125.16:8001/service/factura/factura/';
+var financieroURL = 'http://34.70.223.126:8001/service/factura/factura/';
 
 // URL para obtener datos del establecimiento
-var establecimientoURL = 'http://34.68.155.93:8003/establishments/';
+var establecimientoURL = 'http://35.188.170.84:8005/establishments/';
 
 class MiPedido extends Component {
     constructor() {
       super();
+
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token); 
+
       this.scoreFilter = 0; // Corresponde al indice del select list de metodos de pago     
       this.state = {
-        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario            
+        usuario: decoded.id,            
         mipedido: {},
         metodos: [],
         metodo_escogido: "",

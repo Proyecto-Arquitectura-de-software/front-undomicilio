@@ -35,9 +35,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2),     
   },
 }));
+
+
 
 export default function Login() {
   const classes = useStyles();
@@ -50,7 +52,7 @@ export default function Login() {
   const handleEvent = (event) => {
     if (event.target.name == "email"){
       setEmail(event.target.value)
-    }else{
+    } else {
       setPassword(event.target.value)
     } 
   }
@@ -58,7 +60,7 @@ export default function Login() {
   const submit = (event) => {
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', `http://34.69.44.104:3002/graphql`);
+    xhr.open('POST', `http://34.70.223.126:3002/graphql`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.readyState === 4) {
@@ -67,12 +69,15 @@ export default function Login() {
               console.log(res.data.login);
               localStorage.setItem('token', res.data.login)
               //this.setState({"list" : res.data.getEstablishments});
-              setRedirect('true')
+              if (res.data.login !== 'Wrong credentials') {
+                setRedirect('true');
+              }
             } else {
               console.error(xhr.statusText);
             }
           }
     }.bind(this);
+
     let req = {
         query: `{
           login(credentials:{
@@ -81,13 +86,15 @@ export default function Login() {
           })
         }`
     }
+
     xhr.send(JSON.stringify(req));
   }
-  if (redirect=="true"){
-    return (<Redirect to="/establecimientos" />);
-  } else{
+
+  if (redirect == "true"){
+    return (<Redirect to = "/establecimientos" />);
+  } else {
     return (
-      <Container component="main" maxWidth="xs">
+      <Container component = "main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -96,53 +103,52 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Inicia sesión en UNdomicilio
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className = {classes.form} noValidate>
             <TextField 
-              onChange={handleEvent}
-              variant="outlined"
-              margin="normal"
+              onChange = {handleEvent}
+              variant = "outlined"
+              margin = "normal"
               required
               fullWidth
-              id="email"
-              label="Email o nombre de usuario"
-              name="email"
-              autoComplete="email"
+              id = "email"
+              label = "Email o nombre de usuario"
+              name = "email"
+              autoComplete = "email"
               autoFocus
             />
             <TextField
-              onChange={handleEvent}
-              variant="outlined"
-              margin="normal"
+              onChange = {handleEvent}
+              variant = "outlined"
+              margin = "normal"
               required
               fullWidth
-              name="password"
-              label="Clave"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              name = "password"
+              label = "Contraseña"
+              type = "password"
+              id = "password"
+              autoComplete = "current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Recuerda mis datos"
+              control = {<Checkbox value = "remember" color = "primary" />}
+              label = "Recuerda mis datos"
             />
             <Button
-              onClick={submit}
-              
+              onClick = {submit}              
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className = {classes.submit}
             >
               Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" className = 'invisible'>
                   ¿Olvidaste tu clave?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/registro" variant="body2">
+                <Link href = "/registro" variant = "body2" className = 'invisible'>
                   {"¿No tienes cuenta? Regístrate aquí"}
                 </Link>
               </Grid>

@@ -2,31 +2,35 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Select, MenuItem} from '@material-ui/core';
 import { Chat } from './chat/chat';
-
-  import '../styles/pedido.css';
+import '../styles/pedido.css';
 import { Loading } from './loading/loading';
+import jwt_decode from 'jwt-decode';
 
 
 // URL para actualizar un pedido
-var actualizarPedidoURL = 'http://34.69.25.250:3100/pedidos/';
+var actualizarPedidoURL = 'http://35.188.177.250:3011/pedidos/';
 
 // URL para obtener los datos de un producto
-var productoURL = 'http://34.69.25.250:3000/products/';
+var productoURL = 'http://34.70.223.126:3010/products/';
 
 // URL para obtener informacion de facturacion
-var obtenerFacturaURL = 'http://34.69.25.250:8000/service/factura/factura/';
+var obtenerFacturaURL = 'http://34.70.223.126:8001/service/factura/factura/';
 
 // URL para obtener los datos de un pedido unico
-var obtenerPedidoURL = 'http://34.69.25.250:3100/pedidos/';
+var obtenerPedidoURL = 'http://35.188.177.250:3011/pedidos/';
 
 // URL para obtener los productos asociados a un pedido unico
-var obtenerProductosURL = 'http://34.69.25.250:3100/pedido_producto/';
+var obtenerProductosURL = 'http://35.188.177.250:3011/pedido_producto/';
 
 class PedidoEnCurso extends Component {
     constructor() {
       super();      
+
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);  
+
       this.state = {     
-        usuario: '5dc22701c7900c00135e604c', // > > > Por ahora se maneja por defecto el identificador del usuario a   
+        usuario: decoded.id, // > > > Por ahora se maneja por defecto el identificador del usuario a   
         mipedido: {},
         productos: {},
         metodos: [],

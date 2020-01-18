@@ -2,19 +2,26 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { Rating } from '@material-ui/lab';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import {Select, MenuItem, Button} from '@material-ui/core';
 import '../styles/establishmentsList.css';
 import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://35.188.177.250:3100/pedidos_cliente/'; 
+var pedidosURL = 'http://35.188.177.250:3011/pedidos_cliente/'; 
 
 class EstablishmentsList extends Component{
     
     constructor(){
         super();
+
+        var token = localStorage.getItem('token');
+        var decoded = jwt_decode(token);                        
+    
         this.state = {
-            usuario: '5dc22701c7900c00135e604c' // > > > Por ahora se maneja por defecto el identificador del usuario              
+            // usuario: '5dc22701c7900c00135e604c' // > > > Por ahora se maneja por defecto el identificador del usuario              
+
+            usuario: decoded.id // > > > Por ahora se maneja por defecto el identificador del usuario                                console.log(this.state.usuario.id);        
         };        
         this.scoreFilter = 0;        
         //alert(this.props.user);
@@ -61,8 +68,8 @@ class EstablishmentsList extends Component{
                         {/* > > Incrustacion temporal de boton para editar productos < < */}
                         <span className="spacing"></span>
                         <span>
-                          <Button variant="outlined" color="secondary">
-                            <Link to ='/productos'>Editar productos</Link>                    
+                          <Button variant="outlined" color="secondary" className = 'invisible'> 
+                            <Link to ='/productos'>Editar productos</Link>
                           </Button>
                         </span>
 
@@ -166,7 +173,8 @@ class EstablishmentsList extends Component{
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                   let res = JSON.parse(xhr.responseText);
-                  console.log(res.data.getEstablishments);
+                  console.log(res.data.getEstablishments);                  
+
                   this.setState({"list" : res.data.getEstablishments});
                 } else {
                   console.error(xhr.statusText);
@@ -198,3 +206,4 @@ class EstablishmentsList extends Component{
 }
 
 export default EstablishmentsList;
+

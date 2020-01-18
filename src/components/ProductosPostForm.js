@@ -3,7 +3,7 @@ import axios from 'axios'
 import FileBase64 from 'react-file-base64';
 
 
-const apiUrl = 'http://34.69.25.250:3000/products/'
+const apiUrl = 'http://34.70.223.126:3010/products/'
 
 
 class ProductsPostForm extends Component {
