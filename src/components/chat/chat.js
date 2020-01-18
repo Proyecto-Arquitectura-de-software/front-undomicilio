@@ -20,7 +20,7 @@ export class Chat extends Component {
   componentDidMount() {
     axios({
       method: "GET",
-      url: "http://34.69.25.250:3201/conversacion/a/b"
+      url: "http://35.229.122.90:3201/conversacion/a/b"
     }).then((res) => {
       this.setState({
         conversacion: res.data,
@@ -31,7 +31,7 @@ export class Chat extends Component {
   componentDidUpdate(){
     axios({
       method: "GET",
-      url: "http://34.69.25.250:3201/conversacion/a/b"
+      url: "http://35.229.122.90:3201/conversacion/a/b"
     }).then((res) => {
       this.setState({
         conversacion: res.data,
@@ -55,7 +55,7 @@ export class Chat extends Component {
       console.log(this.state.mensaje);
       axios({
         method: 'post', 
-        url: 'http://34.69.25.250:3201/mensaje',
+        url: 'http://35.229.122.90:3201/mensaje',
         data: {
           "id_cliente": "a",
 	        "id_establecimiento": "b",
