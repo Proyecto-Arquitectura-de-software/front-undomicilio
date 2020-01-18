@@ -386,7 +386,7 @@ class MiPedido extends Component {
                       </span>                      
                     </h4>
                   </div>                              
-                  {/*<Chat></Chat>*/}
+                  <Chat></Chat>
                   <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
                   <span className = ""><strong>{this.state.message_destino}</strong></span>
                   <br></br>
