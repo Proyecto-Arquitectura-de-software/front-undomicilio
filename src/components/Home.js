@@ -143,7 +143,7 @@ export default function Dashboard() {
           <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.title}>
             UN domicilio
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="inherit" className = 'invisible'>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
