@@ -31,7 +31,7 @@ class App extends Component {
                   /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >                
                   <Home />
                   */
-                 <EstablishmentsList />
+                  <EstablishmentsList />
                 )
               }
               }>
