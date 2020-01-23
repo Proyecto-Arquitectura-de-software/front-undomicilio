@@ -7,6 +7,8 @@ import PlaceIcon from '@material-ui/icons/Place';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 
 export const mainListItems = (
   <div>
@@ -16,11 +18,23 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Mi ubicación" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/productos">
+      <ListItemIcon>
+        <FastfoodIcon />
+      </ListItemIcon>
+      <ListItemText primary="Productos" />
+    </ListItem>
+    <ListItem button component={Link} to="/mipedido">
+      <ListItemIcon>
+        <AddShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Mi pedido" />
+    </ListItem>
+    <ListItem button component={Link} to="/establecimientos">
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Productos" />
+      <ListItemText primary="Establecimientos" />
     </ListItem>
     <ListItem button component={Link} to="/login">
       <ListItemIcon>
