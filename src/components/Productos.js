@@ -28,18 +28,16 @@ class Productos extends Component {
       const products = res.data;
       this.setState({ products });
     })
-
-      
   }
-  deleteProduct(publicationID) {  
-    const { products } = this.state;     
-    axios.delete(apiUrl + publicationID).then(result=>{  
-     alert(result.data);  
-      this.setState({  
-        response:result,  
-        products:products.filter(item=>item.publicationID !== publicationID)  
-      });  
-    });  
+  deleteProduct(publicationID) {
+    const { products } = this.state;
+    axios.delete(apiUrl + publicationID).then(result=>{
+     alert(result.data);
+      this.setState({
+        response:result,
+        products:products.filter(item=>item.publicationID !== publicationID)
+      });
+    });
   }
 
 
@@ -47,7 +45,7 @@ class Productos extends Component {
 
 
 
-  render() {  
+  render() {
         const producto = this.state.products.map((item,i)=>{
           return(
             <div className="col-md-4">
@@ -63,16 +61,16 @@ class Productos extends Component {
                   <span>{item.description}</span>
                 </div>
                 <div className="card-footer">
-                  {/* ! ! ! Se oculta temporalmente el boton de Editar hasta que se implemente la funcionalidad 
+                  {/* ! ! ! Se oculta temporalmente el boton de Editar hasta que se implemente la funcionalidad
                   <button className="btn btn-info invisible" onClick={() => this.props.editProduct(item.publicationID)}>Edit</button>
-                  */}       
-                  <button className="btn btn-danger agregar" onClick={() => this.deleteProduct(item.publicationID)}>Eliminar</button>  
+                  */}
+                  <button className="btn btn-danger agregar" onClick={() => this.deleteProduct(item.publicationID)}>Eliminar</button>
                 </div>
               </div>
-            </div>  
+            </div>
           )
         })
-    
+
 
         return (
           <div>
@@ -82,7 +80,7 @@ class Productos extends Component {
                 <span className="badge badge-pill badge-light ml-2">
                   Productos totales: {this.state.products.length}
                 </span>
-              </a>  
+              </a>
             </nav>
             <div className="container-fluid">
               <div className="row mt-4">
@@ -97,11 +95,11 @@ class Productos extends Component {
                   </div>
                 </div>
               </div>
-          </div>         
-          
+          </div>
+
         </div>
         );
-    
+
   }
 }
 export default Productos;

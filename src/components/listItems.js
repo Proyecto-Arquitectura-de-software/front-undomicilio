@@ -9,6 +9,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import BusinessIcon from '@material-ui/icons/Business';
 
 export const mainListItems = (
   <div>
@@ -32,7 +33,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem button component={Link} to="/establecimientos">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <BusinessIcon />
       </ListItemIcon>
       <ListItemText primary="Establecimientos" />
     </ListItem>
