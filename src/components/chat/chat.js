@@ -20,7 +20,7 @@ export class Chat extends Component {
   componentDidMount() {
     axios({
       method: "GET",
-      url: "http://34.70.223.126:3201/conversacion/a/b"
+      url: "http://34.70.223.126:3200/conversacion/a/b"
     }).then((res) => {
       this.setState({
         conversacion: res.data,
@@ -69,15 +69,15 @@ export class Chat extends Component {
 
   render() {
     return (
-      <div className="chat">
+      <div className = "chat">
         {
           this.state.showChat
             ? (
               <div>
-                <div className="conversation">
+                <div className = "conversation">
                   {
                     this.state.conversacion.map(res => (
-                      <div key={res.id} id={res.remitente === 0 ? "remitente" : "destinatario"}>{res.mensaje}</div>
+                      <div key = {res.id} id = {res.remitente === 0 ? "remitente" : "destinatario"}>{res.mensaje}</div>
                     ))
                   }
                 </div>
@@ -88,7 +88,7 @@ export class Chat extends Component {
               null
             )
         }
-        <div className="button" onClick={this.showChat}>Chat</div>
+        <div className = "button" onClick = {this.showChat}>Chat</div>
       </div>
     )
   }

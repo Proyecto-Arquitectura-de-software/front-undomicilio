@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    display: 'none',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -60,7 +61,7 @@ export default function Login() {
   const submit = (event) => {
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', `http://34.70.223.126:3002/graphql`);
+    xhr.open('POST', `http://35.188.177.250:3002/graphql`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.readyState === 4) {
@@ -94,13 +95,13 @@ export default function Login() {
     return (<Redirect to = "/establecimientos" />);
   } else {
     return (
-      <Container component = "main" maxWidth="xs">
+      <Container component = "main" maxWidth = "xs">
         <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+        <div className = {classes.paper}>
+          <Avatar className = {classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component = "h1" variant = "h5">
             Inicia sesión en UNdomicilio
           </Typography>
           <form className = {classes.form} noValidate>
@@ -135,15 +136,15 @@ export default function Login() {
             <Button
               onClick = {submit}              
               fullWidth
-              variant="contained"
-              color="primary"
+              variant = "contained"
+              color = "primary"
               className = {classes.submit}
             >
               Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" className = 'invisible'>
+                <Link href = "#" variant = "body2" className = 'invisible'>
                   ¿Olvidaste tu clave?
                 </Link>
               </Grid>

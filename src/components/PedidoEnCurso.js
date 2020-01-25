@@ -8,19 +8,19 @@ import jwt_decode from 'jwt-decode';
 
 
 // URL para actualizar un pedido
-var actualizarPedidoURL = 'http://35.188.177.250:3011/pedidos/';
+var actualizarPedidoURL = 'http://35.188.170.84:3100/pedidos/';
 
 // URL para obtener los datos de un producto
-var productoURL = 'http://34.70.223.126:3010/products/';
+var productoURL = 'http://34.70.223.126:3000/products/';
 
 // URL para obtener informacion de facturacion
-var obtenerFacturaURL = 'http://34.70.223.126:8001/service/factura/factura/';
+var obtenerFacturaURL = 'http://34.70.223.126:8000/service/factura/factura/';
 
 // URL para obtener los datos de un pedido unico
-var obtenerPedidoURL = 'http://35.188.177.250:3011/pedidos/';
+var obtenerPedidoURL = 'http://35.188.170.84:3100/pedidos/';
 
 // URL para obtener los productos asociados a un pedido unico
-var obtenerProductosURL = 'http://35.188.177.250:3011/pedido_producto/';
+var obtenerProductosURL = 'http://35.188.170.84:3100/pedido_producto/';
 
 class PedidoEnCurso extends Component {
     constructor() {

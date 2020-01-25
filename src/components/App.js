@@ -40,7 +40,7 @@ class App extends Component {
             {/* Ruta a la pagina de establecimientos */}
             <Route exact path = "/establecimientos" render = { () => {
                 return (
-                  <EstablishmentsList user = {this.state.usuario}/>
+                  <EstablishmentsList />
                 )
               }
               }>

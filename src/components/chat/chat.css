@@ -6,7 +6,7 @@ body {margin:0;}
     background-color: rgb(225,50,50);
     position: fixed;
     bottom: 0;
-    right: 5%;
+    left: 5%;
     width: 250px;
 }
 
@@ -28,7 +28,7 @@ body {margin:0;}
 }
 
 .chat .button {
-    float: right;
+    float: left;
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -42,6 +42,7 @@ body {margin:0;}
 .chat .button:hover {
     background: rgb(220,100,100);
     color: black;
+    cursor: pointer;
 }
 
 #remitente{

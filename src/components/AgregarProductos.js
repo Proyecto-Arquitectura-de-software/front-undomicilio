@@ -5,12 +5,11 @@ import MiPedido from './MiPedido';
 import jwt_decode from 'jwt-decode';
 
 // URL para consultar todos los productos existentes
-const productosURL = 'http://34.70.223.126:3010/products/';
+const productosURL = 'http://34.70.223.126:3000/products/';
 
 
 class AgregarProductos extends Component {
      
-
     constructor(props) {
       super(props);
 
@@ -71,15 +70,15 @@ class AgregarProductos extends Component {
             <div className="card">
               <div className="card-header">
                 <h3>{item.name}</h3>
-                <div className="cardImg">
-                  <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
+                <div className = "cardImg">
+                  <img src={item.image} width="150px" height="150px" alt = "Descripcion de la imagen"/> 
                 </div>                
                 <p className="text badge badge-warning mt-2">$ {item.price}</p>
               </div>
               <div className="center mt-2 mb-2">    
               <span>{item.description}</span> 
               </div>
-              <div className="card-footer text-center">
+              <div className = "card-footer text-center">
                 <button className="btn btn-info agregar" onClick={() => this.agregarProducto(item)}>Agregar a mi pedido</button>       
               </div>
             </div>
@@ -90,11 +89,11 @@ class AgregarProductos extends Component {
       if (this.state.establecimiento !== null){
         return (
           <div>
-            <nav className="navbar navbar-dark bg-dark">
-              <a className="text-white" href="/" >
+            <nav className = "navbar navbar-dark bg-dark">
+              <a className = "text-white float-right" href = "/establecimientos" >
                 Establecimiento
-                <span className="badge badge-pill badge-light ml-2">
-                  Numero de productos: {this.state.productos.length}
+                <span className = "badge badge-pill badge-light ml-2">
+                  Productos totales: {this.state.productos.length}
                 </span>
               </a>  
             </nav>
@@ -125,10 +124,7 @@ class AgregarProductos extends Component {
       else {        
         return (<Loading/>)
       }
-   
 
-      
-  
   }
 }
 export default AgregarProductos;

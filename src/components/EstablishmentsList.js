@@ -8,7 +8,7 @@ import '../styles/establishmentsList.css';
 import { Loading } from './loading/loading';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
-var pedidosURL = 'http://35.188.177.250:3011/pedidos_cliente/'; 
+var pedidosURL = 'http://35.188.170.84:3011/pedidos_cliente/'; 
 
 class EstablishmentsList extends Component{
     
@@ -167,7 +167,7 @@ class EstablishmentsList extends Component{
     // ! ! ! COORDENADAS HARCODEADAS ! ! ! => falta que sean parametrizables por una vista de ubicacion
     getList(){
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', `http://34.70.223.126:3002/graphql`);
+        xhr.open('POST', `http://35.188.177.250:3002/graphql`);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
             if (xhr.readyState === 4) {
