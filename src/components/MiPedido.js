@@ -265,7 +265,7 @@ class MiPedido extends Component {
       this.setState({message_destino:  message_destino});
       this.setState({message_prod:  message_prod});
 
-      return message_destino === "";
+      return message_destino === "" && message_prod === "";
       /*  ! ! ! Desactivado temporalmente ! ! ! 
           return message_destino === "" && message_prod === "";
       */

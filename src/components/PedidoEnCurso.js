@@ -158,7 +158,7 @@ class PedidoEnCurso extends Component {
        /*  ! ! ! Desactivado temporalmente ! ! ! 
           if (this.state.productos.length > 0 && this.state.total !== -1){  
       */
-      if (this.state.total !== -1){        
+      if (this.state.productos.length > 0 && this.state.total !== -1){ 
         //console.log(this.state.mipedido[0].destino);
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
