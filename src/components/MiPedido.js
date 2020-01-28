@@ -91,14 +91,13 @@ class MiPedido extends Component {
               this.setState({"mipedido" : pedidos[i]});   
               return;         
             }
-            else if (pedidos[i].estado === 'En curso'){
-              this.setState({"estado" : 'curso'});  
-              this.setState({"mipedido" : pedidos[i]});                          
-              return;                     
+            if (pedidos[i].estado === 'En curso'){                     
+              this.setState({"estado" : 'curso'});     
+              this.setState({"mipedido" : pedidos[i]});   
+              return;         
             }
           }
-          
-          //alert('Solo encontro finalizados y se crea un NUEVO pedido');
+                    
           // Solo encontro pedidos finalizados, asi que se crea un nuevo pedido
           this.nuevoPedido();
   
@@ -156,13 +155,13 @@ class MiPedido extends Component {
       return resultado;
     }
 
-    // La funcion que se ejecuta para solicitare el envio del pedido
+    // La funcion que se ejecuta para solicitar el envio del pedido
     enviarPedido = e => {    
 
       // Primero se realizan las validaciones
       if (this.validaciones()){  
              
-        // <<<Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
+        // <<< Se utiliza la misma URL para crear un pedido, pero ahora es un metodo PUT y se le adjunta el id del pedido que se va a actualizar
         nuevoPedidoURL += this.state.mipedido.id;
         //alert('Enviando')
         let metodo;
@@ -174,7 +173,6 @@ class MiPedido extends Component {
         else {
           metodo = document.getElementById("metodo").innerHTML;
         }        
-
 
           // Se actualiza el pedido con los datos ingresados por el usuario
           let body = {
@@ -240,13 +238,13 @@ class MiPedido extends Component {
         });
 
         // Finalmente, se redirige a la vista de pedido en curso
-        window.location.href = "/pedidoencurso/" + this.state.mipedido.id; 
-
+        //
+        console.log('Fin');
+        // window.location.href = "/pedidoencurso/" + this.state.mipedido.id; 
+        e.preventDefault();  
       }
       else {
-        e.preventDefault();
-
-        
+        e.preventDefault();        
       }
     }
 
@@ -259,6 +257,7 @@ class MiPedido extends Component {
         message_destino = "!Tu pedido no tiene una direccion de destino¡";
       }
 
+      
       if(this.props.productosAgregados.length <= 0){        
         message_prod = "!Tu pedido no tiene productos¡";              
       }
@@ -266,7 +265,10 @@ class MiPedido extends Component {
       this.setState({message_destino:  message_destino});
       this.setState({message_prod:  message_prod});
 
-      return message_destino === "" && message_prod === "";
+      return message_destino === "";
+      /*  ! ! ! Desactivado temporalmente ! ! ! 
+          return message_destino === "" && message_prod === "";
+      */
 
     }
 
@@ -317,8 +319,8 @@ class MiPedido extends Component {
         return (  
           
           <div>                                        
-            <h3 className = "card card-header mb-2"><strong>Mi pedido</strong></h3>
-            <form onSubmit = {this.enviarPedido}>              
+            <h3 className = "card card-header mb-2 mt-3"><strong>Mi pedido</strong></h3>
+            <form>              
               <div className = "card">
                 <div className = "card-body"> 
                                     
@@ -388,7 +390,7 @@ class MiPedido extends Component {
                     </h4>
                   </div>                              
                   <Chat></Chat>
-                  <button type = "submit" className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
+                  <button onClick = {this.enviarPedido} className = "btn btn-danger mt-2 mb-2 enviar">Enviar pedido</button> 
                   <span className = ""><strong>{this.state.message_destino}</strong></span>
                   <br></br>
                   <span className = ""><strong>{this.state.message_prod}</strong></span>

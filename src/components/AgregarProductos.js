@@ -7,7 +7,6 @@ import jwt_decode from 'jwt-decode';
 // URL para consultar todos los productos existentes
 const productosURL = 'http://34.70.223.126:3000/products/';
 
-
 class AgregarProductos extends Component {
      
     constructor(props) {
@@ -58,15 +57,13 @@ class AgregarProductos extends Component {
         
     this.state.productosAgregados.splice(index,1);
     this.setState({ productosAgregados: this.state.productosAgregados});    
-
   }
-  
 
   render() {  
     //console.log(this.state.productosAgregados);
       const productos = this.state.productos.map((item,i) => {
         return(
-          <div className="col-md-4">
+          <div className="col-md-4 mt-3">
             <div className="card">
               <div className="card-header">
                 <h3>{item.name}</h3>
@@ -90,12 +87,17 @@ class AgregarProductos extends Component {
         return (
           <div>
             <nav className = "navbar navbar-dark bg-dark">
-              <a className = "text-white float-right" href = "/establecimientos" >
+              <span className = "text-white " href = "/establecimientos" >
                 Establecimiento
                 <span className = "badge badge-pill badge-light ml-2">
                   Productos totales: {this.state.productos.length}
                 </span>
-              </a>  
+              </span>  
+              <button className = "btn btn-info">
+                <a className = "text-white" href = "/establecimientos" >
+                  Volver
+                </a> 
+              </button>                
             </nav>
   
             <div className="container-fluid">
