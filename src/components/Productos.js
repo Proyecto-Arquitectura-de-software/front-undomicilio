@@ -68,7 +68,7 @@ class Productos extends Component {
                 <div className = "card-header">
                   <h3> {item.name} </h3>
                   <div className = "cardImg">
-                    <img src = {item.image} width = "100px" height = "100px" alt = "Descripcion de la imagen" />
+                    <img src = {item.image} width = "230px" height = "200px" alt = "Imagen no disponible" />
                   </div>
                   <span className = "badge badge-warning ml-2">{item.price} COP</span>
                 </div>

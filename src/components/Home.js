@@ -186,10 +186,10 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {/* Ubicación */}
-            <Grid item xs={7.5} alignItems='center'>
-              <Paper elevation={3}>
+            <Grid item xs={7.5} alignItems='center' className = 'invisible'>
+              <Paper elevation={8}>
                 <InputBase
                   className={classes.busqueda}
                   id="direccion"

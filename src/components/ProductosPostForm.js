@@ -31,6 +31,7 @@ class ProductsPostForm extends Component {
 			.post(apiUrl, this.state)
 			.then(response => {
 				console.log(response);
+				window.location.href = "/productos";
 			})
 			.catch(error => {
 				console.log(error)
