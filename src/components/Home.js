@@ -17,11 +17,9 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import MyLocationIcon from '@material-ui/icons/MyLocation';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
-import Mapa from './Mapa';
 import credenciales from './credenciales';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -31,10 +29,7 @@ import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
 
-
 const drawerWidth = 240;
-
-const mapaURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credenciales.mapsKey}`
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -211,7 +206,7 @@ export default function Dashboard() {
             <Grid item xs={4}>
               <Card>
                 <CardHeader
-                  title={'Promoción 1'}
+                  title={'Promoción Hamburguesa'}
                   titleTypographyProps={{ align: 'center'}}
                   action={<StarIcon />}
                   className={classes.cardHeader}
@@ -219,7 +214,7 @@ export default function Dashboard() {
                 <CardMedia
                     className={classes.cardMedia}
                     image="https://d2yoo3qu6vrk5d.cloudfront.net/images/20181123122242/hamburguesa-420x278.jpg"
-                    title="Promocion 1"
+                    title="Promocion Hamburguesa combo"
                 />
                 <CardContent>
                   <div className={classes.cardPricing}>
@@ -241,7 +236,7 @@ export default function Dashboard() {
             <Grid item xs={4}>
               <Card>
                 <CardHeader
-                  title={'Promoción 2'}
+                  title={'Promoción Sushi'}
                   titleTypographyProps={{ align: 'center'}}
                   action={<StarIcon />}
                   className={classes.cardHeader}
@@ -249,7 +244,7 @@ export default function Dashboard() {
                 <CardMedia
                     className={classes.cardMedia}
                     image="https://cdn2.cocinadelirante.com/sites/default/files/images/2017/01/sushiconaguacate.jpg"
-                    title="Promocion 2"
+                    title="Promocion Sushi"
                 />
                 <CardContent>
                   <div className={classes.cardPricing}>
@@ -271,7 +266,7 @@ export default function Dashboard() {
             <Grid item xs={4}>
               <Card>
                 <CardHeader
-                  title={'Promoción 3'}
+                  title={'Promoción Pasta'}
                   titleTypographyProps={{ align: 'center'}}
                   action={<StarIcon />}
                   className={classes.cardHeader}
@@ -279,7 +274,7 @@ export default function Dashboard() {
                 <CardMedia
                     className={classes.cardMedia}
                     image="https://www.cocinayvino.com/wp-content/uploads/2017/03/51721117_l.jpg"
-                    title="Promocion 3"
+                    title="Promocion Pasta"
                 />
                 <CardContent>
                   <div className={classes.cardPricing}>

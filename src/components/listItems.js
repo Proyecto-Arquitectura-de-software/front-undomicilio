@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PlaceIcon from '@material-ui/icons/Place';
+import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import BusinessIcon from '@material-ui/icons/Business';
@@ -14,9 +13,9 @@ export const mainListItems = (
   <div>
     <ListItem button component={Link} to="/">
       <ListItemIcon>
-        <PlaceIcon />
+        <HomeIcon />
       </ListItemIcon>
-      <ListItemText primary="Mi ubicación" />
+      <ListItemText primary="Inicio" />
     </ListItem>
     <ListItem button component={Link} to="/productos">
       <ListItemIcon>
@@ -42,11 +41,6 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Cuentas" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Historicos" />
-    </ListItem>
+
   </div>
 );
