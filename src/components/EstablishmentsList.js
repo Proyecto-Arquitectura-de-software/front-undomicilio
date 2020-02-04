@@ -37,7 +37,7 @@ class EstablishmentsList extends Component{
     }
 
     componentDidMount() {                  
-        this.getList();
+        this.getList();        
     }    
     
 

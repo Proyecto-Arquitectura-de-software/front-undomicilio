@@ -46,10 +46,10 @@ class PedidoEnCurso extends Component {
       const { match: { params } } = this.props;      
 
 
-      obtenerPedidoURL += params.id_pedido;      
+      obtenerPedidoURL += params.id_pedido;            
       this.obtenerPedido(obtenerPedidoURL);   
       
-      obtenerProductosURL += params.id_pedido;              
+      obtenerProductosURL += params.id_pedido;                  
       this.obtenerProductos(obtenerProductosURL);
       
       this.obtenerFactura(obtenerFacturaURL);
@@ -79,13 +79,13 @@ class PedidoEnCurso extends Component {
         
         // Se hace la peticion de la informacion de cada producto
         URL = productoURL + id_productos[i].id_producto;
-
+        console.log(URL);
         data = await fetch(URL); 
         data = await data.json();
 
         productos.push(data);
       }
-
+      
       this.setState({"productos" : productos});      
     } 
  
@@ -145,6 +145,7 @@ class PedidoEnCurso extends Component {
       .then(response => {
         console.log('Se actualizo bien el pedido a finalizado !!');
         console.log(response);
+        window.location.href = "/establecimientos";
       })
       .catch(error => {
         console.log('Algo fallo actualizando el pedido');
@@ -157,14 +158,11 @@ class PedidoEnCurso extends Component {
             
        /*  ! ! ! Desactivado temporalmente ! ! ! 
           if (this.state.productos.length > 0 && this.state.total !== -1){  
-      */
+      */     
       if (this.state.productos.length > 0 && this.state.total !== -1){ 
         //console.log(this.state.mipedido[0].destino);
         // El subcomponente que se va a mostrar en la seccion de productos
         let productos;
-
-        // El componente de seleccion de metodos de pago segun el establecimiento
-        let metodos;
 
         // Los productos que conforman el pedido            
         productos = this.state.productos.map((item,i) => {
@@ -186,22 +184,25 @@ class PedidoEnCurso extends Component {
               </div>
             </div>  
           )
-        })
-
-        metodos = this.state.metodos.map((item, i) => {
-          return (                    
-            <MenuItem value = {i+1}>{item}</MenuItem>                                         
-          )
-        });
-      
-        // No se han agregado productos al pedido
-        ////onClick = {() => this.props.eliminarProducto.bind(this, item.publicationID)}>       
-                
-    
+        })  
+                    
         return (  
           
           <div>                                        
-            <h3 className = "card card-header mb-2"><strong>Pedido en curso</strong></h3>
+            <nav className = "navbar navbar-dark bg-dark">
+              <span className = "text-white " href = "/establecimientos" >
+                Tu pedido va en camino
+                <span className = "badge badge-pill badge-light ml-2">
+                  Productos totales: {this.state.productos.length}
+                </span>
+              </span>  
+              <button className = "btn btn-info">
+                <a className = "text-white" href = "/establecimientos" >
+                  Volver
+                </a> 
+              </button>                
+            </nav>
+
             <form onSubmit = {this.finalizarPedido}>                
               <div className = "card">
                 <div className = "card-body"> 

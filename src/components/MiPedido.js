@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 import '../styles/pedido.css';
 import { Loading } from './loading/loading';
+import { Redirect } from 'react-router-dom';
 
 // URL para consultar los pedidos de un cliente y un establecimiento dados
 var pedidosURL = 'http://35.188.170.84:3100/pedidos_cliente/';
@@ -77,6 +78,15 @@ class MiPedido extends Component {
       }); 
 
       //this.obtenerDatos();    
+    }
+
+    redirect (id) {
+
+      setTimeout(function()
+        { 
+          window.location.href = "/pedidoencurso/" + id; 
+        }, 1200);
+
     }
 
     // Se determina si ya existe un pedido en proceso o creado. O por el contrario, se crea uno nuevo
@@ -156,8 +166,8 @@ class MiPedido extends Component {
     }
 
     // La funcion que se ejecuta para solicitar el envio del pedido
-    enviarPedido = e => {    
-
+    enviarPedido = e => {   
+      
       // Primero se realizan las validaciones
       if (this.validaciones()){  
              
@@ -185,12 +195,14 @@ class MiPedido extends Component {
             "metodo_pago": metodo
           };
 
+          
+
           axios
           .put(nuevoPedidoURL, body)
           .then(response => {
             console.log('Se actualizo bien el pedido');
-            console.log(response);
-          })
+            console.log(response);            
+          })        
           .catch(error => {
             console.log('Algo fallo actualizando el pedido');
             console.log(error)
@@ -209,7 +221,7 @@ class MiPedido extends Component {
         .post(financieroURL, body)
         .then(response => {
           console.log('Se guardo la informacion de facturacion el pedido');
-          console.log(response);
+          console.log(response);          
         })
         .catch(error => {
           console.log('Algo fallo con la informacion de facturacion del pedido');            
@@ -228,7 +240,7 @@ class MiPedido extends Component {
           .post(pedidoProductoURL, body)
           .then(response => {
             console.log('Se asocio el producto con el pedido');
-            console.log(response);
+            console.log(response);                
           })
           .catch(error => {
             console.log('Algo fallo en la asociacion');
@@ -237,11 +249,9 @@ class MiPedido extends Component {
 
         });
 
-        // Finalmente, se redirige a la vista de pedido en curso
-        //
-        console.log('Fin');
-        // window.location.href = "/pedidoencurso/" + this.state.mipedido.id; 
-        e.preventDefault();  
+        // Finalmente, se redirige a la vista de pedido en curso cuando se ha terminado de procesas las peticiones
+        this.redirect(this.state.mipedido.id);             
+        e.preventDefault();
       }
       else {
         e.preventDefault();        
