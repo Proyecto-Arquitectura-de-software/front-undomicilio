@@ -16,14 +16,14 @@ class ProductsPostForm extends Component {
 			price: '',
 			establishmentID: '5db30354c7900c00135e604a', // < < < ID temporal al final > > >
             image: [],
-            
+
 		}
 	}
-        
+
 	changeHandler = e => {
 		this.setState({ [e.target.name]: e.target.value })
     }
-    
+
 	submitHandler = e => {
 		e.preventDefault();
 		console.log(this.state);
@@ -36,7 +36,7 @@ class ProductsPostForm extends Component {
 				console.log(error)
 			})
     }
-    
+
 
 
     getFiles(image){
@@ -53,7 +53,7 @@ class ProductsPostForm extends Component {
 							type="text"
                             name="name"
                             className="form-control"
-							
+
                             onChange={this.changeHandler}
                             placeholder="Nombre"
 						/>
@@ -63,7 +63,7 @@ class ProductsPostForm extends Component {
 							type="text"
                             name="description"
                             className="form-control"
-							
+
                             onChange={this.changeHandler}
                             placeholder="Descripcion"
 						/>
@@ -73,7 +73,7 @@ class ProductsPostForm extends Component {
 							type="number"
                             name="price"
                             className="form-control"
-							
+
                             onChange={this.changeHandler}
                             placeholder="Precio"
 						/>

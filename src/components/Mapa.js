@@ -25,6 +25,8 @@ export default withScriptjs(
   loadingElement={<p>Cargando</p>}
 />*/
 
+//const mapaURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${credenciales.mapsKey}`
+
 /*export class Mapa extends Component {
   render() {
     return (
