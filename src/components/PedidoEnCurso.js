@@ -174,7 +174,7 @@ class PedidoEnCurso extends Component {
                 </div>  
                 <div className="card-header">
                   <div className="cardImg">
-                    <img src={item[0].image} width="150px" height="150px" alt = "Descripcion de la imagen"/>
+                    <img src={item[0].image} width = "230px" height = "200px" alt = "Descripcion de la imagen"/>
                   </div>                
                   <p className="text badge badge-warning mt-2">$ {item[0].price}</p>
                 </div>

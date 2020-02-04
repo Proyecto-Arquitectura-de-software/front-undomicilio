@@ -86,16 +86,14 @@ class EstablishmentsList extends Component{
             <Button color="primary" onClick={this.getList.bind(this)}>Buscar</Button>
 
             {/* > > Incrustacion temporal de boton para editar productos < < */}
-            <span className="spacing"></span>
-            <span>
-              <Button variant="outlined" color="secondary" className = 'invisible'>
-                <Link to ='/productos'>Editar productos</Link>
-              </Button>
-            </span>
+            <span className = "spacing"></span>
+            <span className = "spacing"></span>
+            <span className = "spacing"></span>
+
           </div>
           <ul className="establishmentList">
               {this.state.list.map(e => (
-                  <li key = {e._id} className="establishmentDiv">
+                  <li key = {e._id} className="establishmentDiv border">
                       <a name = {e._id}  onClick = {this.goToProducts} className="link">{e.name}</a><small className="category">{e.type}</small><br/>
                       <Rating className="scoreRating" value={e.score} readOnly={true} size="small"/>
                       <div>

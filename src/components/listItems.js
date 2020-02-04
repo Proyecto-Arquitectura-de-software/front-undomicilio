@@ -33,7 +33,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Cuentas" />
+      <ListItemText primary = "Iniciar sesión" />
     </ListItem>
 
   </div>

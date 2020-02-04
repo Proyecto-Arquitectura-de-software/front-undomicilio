@@ -10,11 +10,8 @@
 }
 
 .establishmentDiv{
-    background-color: beige;
-    padding-top: 5;
-    padding-bottom: 5;
-    padding-right: 5;
-    padding-left: 5;
+    background-color: rgba(241, 223, 223, 0.863);
+    padding: 8px;
     margin : 1em;
     Text-Align: center;
 }
@@ -26,12 +23,12 @@
 }
 
 .infoText{
-    font-size: small;
+    
 }
 
 .subtitleText{
     font-size: small;
-    color: gray;
+    color: rgb(90, 63, 27);
 }
 
 .scoreRating{
