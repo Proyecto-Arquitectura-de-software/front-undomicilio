@@ -88,7 +88,7 @@ class AgregarProductos extends Component {
           <div>
             <nav className = "navbar navbar-dark bg-dark">
               <span className = "text-white " href = "/establecimientos" >
-                Establecimiento
+                Agrega productos a tu gusto y solicita tu pedido
                 <span className = "badge badge-pill badge-light ml-2">
                   Productos totales: {this.state.productos.length}
                 </span>

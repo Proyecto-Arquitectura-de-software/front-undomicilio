@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductsPostForm from './ProductosPostForm';
 
 // URL para consultar los productos del establecimiento logueado como usuario
-var apiUrl = 'http://34.70.223.126:3010/products/establishment/';
+var apiUrl = 'http://34.70.223.126:3000/products/';
 
 
 class Productos extends Component {
@@ -20,7 +20,7 @@ class Productos extends Component {
 
   componentDidMount() {
 
-    apiUrl += this.state.establecimiento;
+    // apiUrl += this.state.establecimiento;
 
     // Se cargan los productos del establecimiento logueado
     axios.get (apiUrl)
@@ -31,56 +31,56 @@ class Productos extends Component {
   }
   deleteProduct(publicationID) {
     const { products } = this.state;
-    axios.delete(apiUrl + publicationID).then(result=>{
-     alert(result.data);
+    axios.delete(apiUrl + publicationID).then(result => {
+     // alert(result.data);
       this.setState({
         response:result,
-        products:products.filter(item=>item.publicationID !== publicationID)
+        products:products.filter(item => item.publicationID !== publicationID)
       });
     });
   }
 
 
-
-
-
-
   render() {
-        const producto = this.state.products.map((item,i)=>{
+        const producto = this.state.products.map((item,i) => {
           return(
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-header">
-                  <h3>{item.name}</h3>
-                  <div className="cardImg">
-                    <img src={item.image} width="100px" height="100px" alt = "Descripcion de la imagen" />
+            <div className = "col-md-4 mt-3">
+              <div className = "card">
+                <div className = "card-header">
+                  <h3> {item.name} </h3>
+                  <div className = "cardImg">
+                    <img src = {item.image} width = "100px" height = "100px" alt = "Descripcion de la imagen" />
                   </div>
-                  <span className="badge badge-warning ml-2">{item.price} COP</span>
+                  <span className = "badge badge-warning ml-2">{item.price} COP</span>
                 </div>
-                <div className="card-body">
+                <div className = "card-body">
                   <span>{item.description}</span>
                 </div>
                 <div className="card-footer">
                   {/* ! ! ! Se oculta temporalmente el boton de Editar hasta que se implemente la funcionalidad
                   <button className="btn btn-info invisible" onClick={() => this.props.editProduct(item.publicationID)}>Edit</button>
                   */}
-                  <button className="btn btn-danger agregar" onClick={() => this.deleteProduct(item.publicationID)}>Eliminar</button>
+                  <button className = "btn btn-danger agregar" onClick={() => this.deleteProduct(item.publicationID)}>Eliminar</button>
                 </div>
               </div>
             </div>
           )
         })
 
-
         return (
           <div>
-            <nav className="navbar navbar-dark bg-dark">
-              <a className="text-white" href="/" >
-                Establecimiento
-                <span className="badge badge-pill badge-light ml-2">
+            <nav className = "navbar navbar-dark bg-dark">
+              <span className = "text-white " href = "/establecimientos" >
+                Crea o elimina los productos que desees ofrecer
+                <span className = "badge badge-pill badge-light ml-2">
                   Productos totales: {this.state.products.length}
                 </span>
-              </a>
+              </span>  
+              <button className = "btn btn-info">
+                <a className = "text-white" href = "/establecimientos" >
+                  Volver
+                </a> 
+              </button>                
             </nav>
             <div className="container-fluid">
               <div className="row mt-4">

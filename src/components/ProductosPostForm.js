@@ -3,7 +3,7 @@ import axios from 'axios'
 import FileBase64 from 'react-file-base64';
 
 
-const apiUrl = 'http://34.70.223.126:3010/products/'
+const apiUrl = 'http://34.70.223.126:3000/products/'
 
 
 class ProductsPostForm extends Component {
@@ -46,8 +46,8 @@ class ProductsPostForm extends Component {
 	render() {
 		//const { name, description, price, image } = this.state
 		return (
-			<div className="card">
-				<form onSubmit={this.submitHandler} className="card-body">
+			<div className = "card mt-3">
+				<form onSubmit = {this.submitHandler} className="card-body">
 					<div className="form-group">
 						<input
 							type="text"
