@@ -23,6 +23,14 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
 import Mapa from './Mapa';
 import credenciales from './credenciales';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import StarIcon from '@material-ui/icons/Star';
+import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
+
 
 const drawerWidth = 240;
 
@@ -109,9 +117,23 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 370,
+
   },
   busquedaBoton: {
     padding: 13,
+  },
+  cardHeader: {
+    backgroundColor: '#3f51b5',
+    color: 'white',
+  },
+  cardPricing: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    marginBottom: theme.spacing(0),
+  },
+  cardMedia: {
+    paddingTop: '50%',
   },
 }));
 
@@ -124,7 +146,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -171,8 +193,8 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Ubicación */}
-            <Grid item xs={7.5}>
-              <Paper>
+            <Grid item xs={7.5} alignItems='center'>
+              <Paper elevation={3}>
                 <InputBase
                   className={classes.busqueda}
                   id="direccion"
@@ -182,24 +204,104 @@ export default function Dashboard() {
                 <IconButton type="submit" color="primary" className={classes.busquedaBoton} aria-label="ir a ubicacion">
                   <NearMeIcon />
                 </IconButton>
-                <IconButton type="submit" color="primary" className={classes.busquedaBoton} aria-label="ubicame">
-                  <MyLocationIcon />
-                </IconButton>
               </Paper>
             </Grid>
-            {/* Mapa */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Mapa
-                  googleMapURL={mapaURL}
-                  containerElement={<div style={{height: '370px'}} />}
-                  mapElement={<div style={{height: '100%' }} />}
-                  loadingElement={<p>Cargando</p>}
+            <Grid item xs={6}></Grid>
+          {/* Mapa */}
+            <Grid item xs={4}>
+              <Card>
+                <CardHeader
+                  title={'Promoción 1'}
+                  titleTypographyProps={{ align: 'center'}}
+                  action={<StarIcon />}
+                  className={classes.cardHeader}
                 />
-              </Paper>
+                <CardMedia
+                    className={classes.cardMedia}
+                    image="https://d2yoo3qu6vrk5d.cloudfront.net/images/20181123122242/hamburguesa-420x278.jpg"
+                    title="Promocion 1"
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      $20.000
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                      COP
+                    </Typography>
+                  </div>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth color="primary" href="/productos">
+                    Llévame a los productos
+                  </Button>
+                </CardActions>
+              </Card>
             </Grid>
+            <Grid item xs={4}>
+              <Card>
+                <CardHeader
+                  title={'Promoción 2'}
+                  titleTypographyProps={{ align: 'center'}}
+                  action={<StarIcon />}
+                  className={classes.cardHeader}
+                />
+                <CardMedia
+                    className={classes.cardMedia}
+                    image="https://cdn2.cocinadelirante.com/sites/default/files/images/2017/01/sushiconaguacate.jpg"
+                    title="Promocion 2"
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      $17.000
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                      COP
+                    </Typography>
+                  </div>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth color="primary" href="/productos">
+                    Llévame a los productos
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Card>
+                <CardHeader
+                  title={'Promoción 3'}
+                  titleTypographyProps={{ align: 'center'}}
+                  action={<StarIcon />}
+                  className={classes.cardHeader}
+                />
+                <CardMedia
+                    className={classes.cardMedia}
+                    image="https://www.cocinayvino.com/wp-content/uploads/2017/03/51721117_l.jpg"
+                    title="Promocion 3"
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      $22.000
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                      COP
+                    </Typography>
+                  </div>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth color="primary" href="/productos">
+                    Llévame a los productos
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
           </Grid>
           <Box pt={4}>
+
           </Box>
         </Container>
       </main>

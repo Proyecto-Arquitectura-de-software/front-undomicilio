@@ -8,6 +8,7 @@ import AgregarProductos from './AgregarProductos';
 import EstablishmentsList from './EstablishmentsList';
 import Login from './Login';
 import Registro from './Registro';
+import Mapa from './Mapa';
 
 
 class App extends Component {
@@ -28,7 +29,7 @@ class App extends Component {
             {/* Ruta al Home de la aplicacion */}
             <Route exact path = "/" render = { () => {
                 return (
-                  /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >                                  
+                  /*  < ! < ! < Ingreso Directo TEMPORAL  > ! > ! >
                   <EstablishmentsList />
                   */
                   <Home />
